@@ -6,5 +6,16 @@
 
 {% block main_block %}
     <h2>Browse Categories</h2>
-    <p>This is the page that displays all the categories.</p>
+    <p>Below should be a list of all categories.</p>
+
+    {% if categories %}
+        <ul>
+            {% for category in categories %}
+                <li><a href="{% url 'insQuire:category' category.slugifiedName %}">{{ category.name }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No categories are available.</p>
+    {% endif %}
+
 {% endblock %}
