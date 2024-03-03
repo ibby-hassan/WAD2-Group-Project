@@ -20,7 +20,8 @@
     <nav>
         {% block nav_block %}
             <ul>
-                <li><a href="">Home</a></li>
+                <li><a href="{% url 'insQuire:index' %}">Home</a></li>
+                <li><a href="{% url 'insQuire:all_categories' %}">Browse Categories</a></li>
             </ul>
         {% endblock %}
     </nav>
