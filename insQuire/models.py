@@ -1,14 +1,7 @@
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
-
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    picture = models.ImageField(upload_to='profile_images', blank=True)
-    website = models.URLField(blank=True)
-
-    def __str__(self):
-        return self.user.username
+from .models import Tag, UserProfile
     
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -32,7 +25,7 @@ class Question(models.Model):
     dateAsked = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    tags = models.ManyToManyField('Tag', blank=True)
+    tags = models.ManyToManyField(Tag, blank=True)
     votes = models.IntegerField(default=0)
 
     def __str__(self):
@@ -50,12 +43,17 @@ class Answer(models.Model):
     
 class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True)
-    slugifiedName = models.SlugField(max_length=50, unique=True)
-    questionsWithTag = models.IntegerField()
+    occurrences = models.IntegerField(default=0)
 
-    def save(self, *args, **kwargs):
-        self.slugifiedName = slugify(self.name)
-        super(Tag, self).save(*args, **kwargs)
+def __str__(self):
+    return self.name
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    picture = models.ImageField(upload_to='profile_images', blank=True)
+    website = models.URLField(blank=True)
 
     def __str__(self):
-        return self.name
+        return self.user.username
+
+
