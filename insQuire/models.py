@@ -1,8 +1,26 @@
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
-from .models import Tag, UserProfile
     
+
+#Helper model classes
+class Tag(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    occurrences = models.IntegerField(default=0)
+
+def __str__(self):
+    return self.name
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    picture = models.ImageField(upload_to='profile_images', blank=True)
+    website = models.URLField(blank=True)
+
+    def __str__(self):
+        return self.user.username
+
+
+#The below models are related to displaying questions and answers on the website
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
     description = models.TextField()
@@ -41,19 +59,5 @@ class Answer(models.Model):
     def __str__(self):
         return self.content
     
-class Tag(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-    occurrences = models.IntegerField(default=0)
-
-def __str__(self):
-    return self.name
-
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    picture = models.ImageField(upload_to='profile_images', blank=True)
-    website = models.URLField(blank=True)
-
-    def __str__(self):
-        return self.user.username
 
 
