@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from models import Userprofile
+from insQuire.models import UserProfile
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
@@ -11,5 +11,5 @@ class UserForm(forms.ModelForm):
 
 class UserProfileForm(forms.ModelForm):
     class Meta:
-        model = Userprofile
+        model = UserProfile
         fields = ('website', 'picture',)
