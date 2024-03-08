@@ -24,7 +24,7 @@ class UserProfile(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
     description = models.TextField()
-    questionsInCategory = models.IntegerField()
+    questionCount = models.IntegerField(default=0)
     slugifiedName = models.SlugField(max_length=50, unique=True)
 
     class Meta:
@@ -52,7 +52,7 @@ class Question(models.Model):
 class Answer(models.Model):
     content = models.TextField()
     dateAnswered = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    author = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     votes = models.IntegerField(default=0)
 
