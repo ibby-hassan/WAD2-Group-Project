@@ -6,10 +6,17 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.http import HttpResponse
+from datetime import datetime, timedelta
 
 def index(request):
     context = {}
-    return render(request, 'insQuire/index.html', context)
+
+    try:
+        context['Recent Questions'] = Question.objects.order_by('-dateAsked')[:10]
+        context['Popular Questions'] = Question.objects.order_by('-votes')[:10]
+    except Question.DoesNotExist:
+        context['Recent Questions'] = None
+        context['Popular Questions'] = None
 
 def categories(request):
     context = {}
