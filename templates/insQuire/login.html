@@ -3,7 +3,7 @@
 {% block title_block %}
     Login
 {% endblock %}
-{% block body_block %}
+{% block main_block %}
 <h1>Login to insQuire</h1>
 <form id="login_form" method="post" action="{% url 'insQuire:login' %}">
     {% csrf_token %}

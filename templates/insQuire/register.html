@@ -5,13 +5,13 @@
  Register
  {% endblock %}
 
- {% block body_block %}
+ {% block main_block %}
  <h1>Register for insQuire</h1>
  {% if registered %}
- Rango says: <strong>thank you for registering!</strong>
+ <strong>thank you for registering!</strong>
  <a href="{% url 'insQuire:index' %}">Return to the homepage.</a><br />
  {% else %}
- Rango says: <strong>register here!</strong><br />
+ <strong>register here!</strong><br />
  <form id="user_form" method="post" action="{% url 'insQuire:register' %}"
  enctype="multipart/form-data">
 
