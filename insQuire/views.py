@@ -48,12 +48,11 @@ def category(request, slugifiedName):
 
     return render(request, 'insQuire/category.html', context)
 
-def question(request, slugifiedName):
+def question(request, questionID):
     context = {}
 
     try:
-        category = Category.objects.get(slugifiedName=slugifiedName)
-        question = Question.objects.filter(category=category)
+        question = Question.objects.get(id=questionID)
         context['questions'] = question
 
     except Question.DoesNotExist:

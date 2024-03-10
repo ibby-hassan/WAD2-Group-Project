@@ -1,28 +1,14 @@
 {% extends 'insQuire/base.html' %}
 
 {% block title_block %}
-    {% if category %}
-        {{ category.name }}
-    {% else %}
-        Unknown Category
-    {% endif %}
+
 {% endblock %}
 
 {% block main_block %}
-    <h2>Question Page</h2>
-    <p>Below should display all questions in the category.</p>
-
-    {% if category %}
-        <h3>{{ category.name }}</h3>
-        <p>{{ category.description }}</p>
-        <ul>
-            {% for question in questions %}
-                <li><a href="{% url 'insQuire:question' category.slugifiedName question.questionID %}">{{ question.title }}</a></li>
-            {% endfor %}
-        </ul>
+    {% if questions %}
+    <h2>{{ questions.title }}</h2>
+        <p>{{ questions.content }}</p>
     {% else %}
         <p>Unknown category.</p>
     {% endif %}
-
-
 {% endblock %}

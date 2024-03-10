@@ -6,36 +6,23 @@
 
 {% block main_block %}
     <h2>Browse Categories</h2>
-    <p>Below should be a list of all categories.</p>
-
-    <div class="container">
+        
     {% if categories %}
-        <ul>
+        <div class="row">
             {% for category in categories %}
-            <div class="row align-items-start">
-                <div class="col">
-                        <div class="card" style="width: 18rem;">
-                            <img src="..." class="card-img-top" alt="...">
-                            <div class="card-body">
-                              <h5 class="card-title">{{ category.slugifiedName }}</h5>
-                              <p class="card-text">bla bla bla</p>
-                              
-                              <a href="{% url 'insQuire:category' category.slugifiedName %}" class="btn btn-primary">{{ category.name }}</a>
-                            </div>
-                          </div>
-                          <!--can't really figure out the question.html thingy, will look later-->
-                        {% for q in questions %}
-                        <li><a href="{% url 'insQuire:q' q. %}">{{ q.title }}</a></li>
-                        {% endfor %}
-                </div>
-            </div>
-
-
+                {% if forloop.counter0|divisibleby:4 %}
+                    </div><div class="row">
+                {% endif %}
+                <div class="card" style="width: 18rem; margin-left: 3em ; margin-top: 3em; margin-bottom: 3em">
+                    <div class="card-body">
+                      <h5 class="card-title">{{ category.name }}</h5>
+                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                      <a href="{% url 'insQuire:category' category.slugifiedName %}" class="card-link">{{ category.name }}</a>
+                    </div>
+                  </div>
             {% endfor %}
-        </ul>
+        </div>
     {% else %}
         <p>No categories are available.</p>
     {% endif %}
-    </div>
-
 {% endblock %}
