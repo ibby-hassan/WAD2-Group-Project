@@ -18,6 +18,8 @@ def index(request):
         context['Recent Questions'] = None
         context['Popular Questions'] = None
 
+    return render(request, 'insQuire/index.html', context)
+
 def categories(request):
     context = {}
 
