@@ -11,6 +11,10 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 
 def index(request):
+    if "s" in request.GET:
+        search = request.GET["s"]
+        questions = Question.objects.filter(title__icontains=search)
+        return render(request, 'insQuire/question.html', {'questions': questions})
     context = {}
 
     try:
