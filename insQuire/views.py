@@ -21,8 +21,6 @@ def index(request):
         context['Popular Questions'] = None
     return render(request, 'insQuire/index.html', context)
 
-    return render(request, 'insQuire/index.html', context)
-
 def categories(request):
     context = {}
 
@@ -50,11 +48,12 @@ def category(request, slugifiedName):
 
     return render(request, 'insQuire/category.html', context)
 
-def question(request, questionID):
+def question(request, slugifiedName):
     context = {}
 
     try:
-        question = Question.objects.get(id=questionID)
+        category = Category.objects.get(slugifiedName=slugifiedName)
+        question = Question.objects.filter(category=category)
         context['questions'] = question
 
     except Question.DoesNotExist:

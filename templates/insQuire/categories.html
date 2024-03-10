@@ -17,16 +17,16 @@
                         <div class="card" style="width: 18rem;">
                             <img src="..." class="card-img-top" alt="...">
                             <div class="card-body">
-                              <h5 class="card-title">Card title</h5>
+                              <h5 class="card-title">{{ category.slugifiedName }}</h5>
                               <p class="card-text">bla bla bla</p>
+                              
                               <a href="{% url 'insQuire:category' category.slugifiedName %}" class="btn btn-primary">{{ category.name }}</a>
                             </div>
                           </div>
-                        {% comment %} <!--supposed to show a list of questions below the categories but idk it there is 
-                            questions in the population script-->
+                          <!--can't really figure out the question.html thingy, will look later-->
                         {% for q in questions %}
-                        <li><a href="{% url 'insQuire:q' q.questionID %}">{{ q.title }}</a></li>
-                        {% endfor %} {% endcomment %}
+                        <li><a href="{% url 'insQuire:q' q. %}">{{ q.title }}</a></li>
+                        {% endfor %}
                 </div>
             </div>
 
