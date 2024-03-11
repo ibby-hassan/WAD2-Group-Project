@@ -6,7 +6,6 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.http import HttpResponse
-from datetime import datetime, timedelta
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 
@@ -48,18 +47,28 @@ def category(request, slugifiedName):
 
     return render(request, 'insQuire/category.html', context)
 
-def question(request, slugifiedName):
+def question(request, questionID):
     context = {}
 
     try:
-        category = Category.objects.get(slugifiedName=slugifiedName)
-        question = Question.objects.filter(category=category)
+        question = Question.objects.get(id=questionID)
         context['questions'] = question
 
     except Question.DoesNotExist:
         context['questions'] = None
 
     return render(request, 'insQuire/question.html', context)
+
+def search(request):
+    context = {}
+
+    if request.method == 'POST':
+        query = request.POST['search_bar']
+        questions = Question.objects.filter(title__icontains=query)
+        context['questions'] = questions
+        context['query'] = query
+
+    return render(request, 'insQuire/search.html', context)
 
 def register(request):
     registered = False

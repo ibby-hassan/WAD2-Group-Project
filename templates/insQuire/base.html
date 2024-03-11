@@ -18,7 +18,7 @@
         {% block header_block %}
         {% endblock %}
     </header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <span class="navbar-brand p-2 mb-0 h1">InsQuire</span>
             <ul class="navbar-nav mr-auto">
@@ -34,8 +34,10 @@
 
             </ul>
         </div>
-        <form class="form-inline my-2 my-lg-0 d-flex">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <!--referenced from https://www.youtube.com/watch?v=AGtae4L5BbI-->
+        <form class="form-inline my-2 my-lg-0 d-flex" method=POST action="{% url 'insQuire:search' %}">
+            {% csrf_token %}
+            <input class="form-control mr-sm-2" name="search_bar" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </nav>
