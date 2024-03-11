@@ -6,15 +6,10 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.http import HttpResponse
-from datetime import datetime, timedelta
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 
 def index(request):
-    if "s" in request.GET:
-        search = request.GET["s"]
-        questions = Question.objects.filter(title__icontains=search)
-        return render(request, 'insQuire/question.html', {'questions': questions})
     context = {}
 
     try:
@@ -63,6 +58,17 @@ def question(request, questionID):
         context['questions'] = None
 
     return render(request, 'insQuire/question.html', context)
+
+def search(request):
+    context = {}
+
+    if request.method == 'POST':
+        query = request.POST['search_bar']
+        questions = Question.objects.filter(title__icontains=query)
+        context['questions'] = questions
+        context['query'] = query
+
+    return render(request, 'insQuire/search.html', context)
 
 def register(request):
     registered = False

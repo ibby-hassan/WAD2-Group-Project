@@ -1,0 +1,41 @@
+{% extends 'insQuire/base.html' %}
+
+{% block main_block %}
+    <div style="display: flex; justify-content: center; align-items: center; height: 15vh;">
+        <h1>you have searched for: {{ query }}</h1>
+    </div>
+
+    {% if questions %}
+        {% for question in questions %}
+            <h2><a href="{% url 'insQuire:question' question.id %}">{{ question.title }}</a></h2>
+            <p>Asked by:
+                {% if question.author %}
+                    {{ question.author }}
+                {% else %}
+                    n/a
+                {% endif %}
+            </p>
+            <p>Asked on: 
+                {% if question.dateAsked %}
+                    {{ question.dateAsked }}
+                {% else %}
+                    n/a
+                {% endif %}
+            </p>
+            <p>Tags: 
+                {% if question.tags.all %}
+                    {% for tag in question.tags.all %}
+                            {{ tag.name }}
+                    {% endfor %}        
+                {% else %}
+                    n/a
+                {% endif %}
+            </p>
+            <p>Answers: {{ question.answer_set.count }}</p>
+            <hr>
+        {% endfor %}
+
+    {% else %}
+    <h2>No questions found</h2>
+    {% endif %}
+{% endblock %}
