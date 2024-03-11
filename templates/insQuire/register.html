@@ -22,7 +22,8 @@
                         {{ user_form.as_p }}
                     </div>
                     <div class="form-group">
-                        {{ profile_form.as_p }}
+                        <label for="{{ profile_form.picture.id_for_label }}">Profile Picture:</label>
+                        {{ profile_form.picture }}
                     </div>
                     <!-- Provide a button to submit the form. -->
                     <input type="submit" name="submit" value="Register" class="btn btn-primary" />
