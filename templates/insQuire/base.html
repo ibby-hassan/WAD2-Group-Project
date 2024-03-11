@@ -17,13 +17,18 @@
     <header>
         {% block header_block %}
         <style>
-        .user-picture {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-    </style>
+    .user-picture {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+    }
+</style>
         {% endblock %}
     </header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -44,14 +49,16 @@
         </div>
 
         <div class="d-flex align-items-center">
-            <span class="mr-2">InsQuire</span>
-            {% if user.is_authenticated %}
-                {% if user.userprofile.picture %}
-                    <img src="{{ user.userprofile.picture.url }}" alt="User Avatar" class="user-picture">
-                {% endif %}
-                <span class="ml-2">Welcome, {{ user.username }}!</span>
-            {% endif %}
-        </div>
+    <span class="mr-2">InsQuire</span>
+    {% if user.is_authenticated %}
+        {% if user.userprofile.picture %}
+            <img src="{{ user.userprofile.picture.url }}" alt="User Avatar" class="user-picture">
+        {% endif %}
+        <span class="ml-2 text-white">{{ user.username }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+    {% endif %}
+</div>
+
         <!--referenced from https://www.youtube.com/watch?v=AGtae4L5BbI-->
         <form class="form-inline my-2 my-lg-0 d-flex" method=POST action="{% url 'insQuire:search' %}">
             {% csrf_token %}
