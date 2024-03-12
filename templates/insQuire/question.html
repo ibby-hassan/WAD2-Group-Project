@@ -1,0 +1,14 @@
+{% extends 'insQuire/base.html' %}
+
+{% block title_block %}
+
+{% endblock %}
+
+{% block main_block %}
+    {% if questions %}
+    <h2>{{ questions.title }}</h2>
+        <p>{{ questions.content }}</p>
+    {% else %}
+        <p>Unknown category.</p>
+    {% endif %}
+{% endblock %}

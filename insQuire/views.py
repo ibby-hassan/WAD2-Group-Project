@@ -6,7 +6,8 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.http import HttpResponse
-from datetime import datetime, timedelta
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 
 def index(request):
     context = {}
@@ -17,6 +18,7 @@ def index(request):
     except Question.DoesNotExist:
         context['Recent Questions'] = None
         context['Popular Questions'] = None
+    return render(request, 'insQuire/index.html', context)
 
 def categories(request):
     context = {}
@@ -57,6 +59,17 @@ def question(request, questionID):
 
     return render(request, 'insQuire/question.html', context)
 
+def search(request):
+    context = {}
+
+    if request.method == 'POST':
+        query = request.POST['search_bar']
+        questions = Question.objects.filter(title__icontains=query)
+        context['questions'] = questions
+        context['query'] = query
+
+    return render(request, 'insQuire/search.html', context)
+
 def register(request):
     registered = False
     if request.method == 'POST':
@@ -78,10 +91,8 @@ def register(request):
         user_form = UserForm()
         profile_form = UserProfileForm()
     return render(request,
-                    'rango/register.html',
-    context = {'user_form': user_form,
-                'profile_form': profile_form,
-                'registered': registered})
+                    'insQuire/register.html',
+    context = {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
 
 
 def user_login(request):
@@ -92,11 +103,21 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request, user)
-                return redirect(reverse('rango:index'))
+                return redirect(reverse('insQuire:index'))
             else:
-                return HttpResponse("Your Rango account is disabled.")
+                return HttpResponse("Your insQuire account is disabled.")
         else:
             print(f"Invalid login details: {username}, {password}")
             return HttpResponse("Invalid login details supplied.")
     else:
-        return render(request, 'rango/login.html')
+        return render(request, 'insQuire/login.html')
+
+
+def restricted(request):
+    return HttpResponse("Since you're logged in, you can see this text!")
+
+@login_required
+def user_logout(request):
+    logout(request)
+# Take the user back to the homepage.
+    return redirect(reverse('insQuire:index'))
