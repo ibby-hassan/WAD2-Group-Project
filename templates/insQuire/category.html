@@ -8,12 +8,14 @@
             Category Not Found - InsQuire
         {% endif %}
     {% endblock %}    
-    {% load static %}
-    <script src="{% static '/javscript/upvote.js' %}"></script>
+
 </head>
 
 
 {% block main_block %}
+{% load static %}
+<script src="{% static 'javascript/upvote.js' %}"></script>
+
     <h2>{{ category.name }}</h2>
 
     {% if questions %}
@@ -30,51 +32,37 @@
                   <h5 class="card-title">{{ question.title }}</h5>
                   <p class="card-text">author: {{ question.author|truncatewords:10 }}</p>
                   <p class="card-text">{{ question.content|truncatewords:10 }}</p>
-                    <p class="card-text">votes: {{ question.votes }}</p>
+                <p class="card-text" id="votes{{question.id}}">votes: {{ question.votes }}</p>
 
 
                     {% if user.is_authenticated %}
                     <div class="btn-group-vertical">
-                        <form method="POST" action="{% url 'insQuire:upvote' questionID=question.id %}">
-                            {% csrf_token %}
-                            <button type="submit" id="upvote-button"
-                            class="btn btn-link btn-sm">
+                            <button type="button" id="upvote-button" class="btn btn-link btn-sm" onclick="upVote({{ question.id }})">
                                 <img src="{% static "pictures/upvote.png"%}" alt="Upvote" style="width = 30px; height:30px">
-                        </button>
-                        </form> 
+                            </button>
                         
-                        <form method="POST" action="{% url 'insQuire:downvote' questionID=question.id %}">
-                            {% csrf_token %}
-                            <button type="submit" id="downvote-button"
-                            class="btn btn-link btn-sm">
+                            <button type="button" id="downvote-button" class="btn btn-link btn-sm" onclick="downVote({{ question.id }})">
                                 <img src="{% static "pictures/downvote.png"%}" alt="Downvote" style="width = 30px; height:30px">
                             </button>
-                        </form>
+
                         </div>
                         {% else %}
                         <div>
                             <div class="alert alert-primary" role="alert">
                                 Please <a href="{% url 'insQuire:login'%}" class="alert-link">Login</a> to vote.
                             </div>
-                        <form method="POST" action="{% url 'insQuire:cantvote' questionID=question.id %}">
-                            {% csrf_token %}
-                            <button type="submit" id="downvote-button"
-                            class="btn btn-link btn-sm">
-                            <div class="btn-group-vertical">
-                                <img src="{% static "pictures/upvote.png"%}" alt="Upvote" style="width = 30px; height:30px">
-                                <img src="{% static "pictures/downvote.png"%}" alt="Downvote" style="width = 30px; height:30px">
-                            </div>
+
+                            <button type="button" class="btn btn-link btn-sm" onclick="notLoggedIn()">
+                                <div class="btn-group-vertical">
+                                    <img src="{% static "pictures/upvote.png"%}" alt="Upvote" style="width = 30px; height:30px">
+                                    <img src="{% static "pictures/downvote.png"%}" alt="Downvote" style="width = 30px; height:30px">
+                                </div>
                             </button>
-                        </form>
-                    </div>
-
+                        </div>
                         {% endif %}
-
-
                   <a href="{% url 'insQuire:question' question.id %}" class="card-link">
                     <button class="btn btn-primary" type="submit">View More</button>
                   </a>
-
                 </div>
             </div> 
         {% endfor %}
@@ -83,3 +71,4 @@
         <p>No questions found in this category.</p>
     {% endif %}
 {% endblock %}
+
