@@ -20,7 +20,3 @@ class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
         fields = ['title', 'content', 'category']
-
-
-class CategoryForm(forms.Form):
-    name = forms.CharField(max_length=50, label='Category Name')
