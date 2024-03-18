@@ -11,11 +11,27 @@
     <h2>{{ category.name }}</h2>
 
     {% if questions %}
-        <ul>
-            {% for question in questions %}
-                <li><a href="{% url 'insQuire:question' question.id %}">{{ question.title }}</a></li>
-            {% endfor %}
-        </ul>
+    <div class="row">
+        {% for question in questions %}
+            {% if forloop.counter0|divisibleby:4 %}
+                </div><div class="row">
+            {% endif %}
+            <div class="card" style="width: 18rem; margin-left: 3em ; margin-top: 3em; margin-bottom: 3em">
+                <div class="card-body">
+                  <h5 class="card-title">{{ question.title }}</h5>
+                  <p class="card-text">{{ question.content|truncatewords:10 }}</p>
+                  <div>
+                    <p class="card-text">upvotes: {{ question.votes }}</p>
+                    <form method="POST" action="{% url 'insQuire:upvote' questionID=question.id %}">
+                        {% csrf_token %}
+                        <button type="submit">Upvote</button>
+                    </form> 
+                  </div>
+                  <a href="{% url 'insQuire:question' question.id %}" class="card-link">{{ question.title }}</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
     {% else %}
         <p>No questions found in this category.</p>
     {% endif %}

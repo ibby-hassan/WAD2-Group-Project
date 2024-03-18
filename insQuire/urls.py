@@ -19,5 +19,6 @@ urlpatterns = [
     path('logout/', views.user_logout, name='logout'),
     path('askquestion/', views.askQuestion, name='askQuestion'),
     path('add_category/', views.add_category, name='add_category'),
+    path('categories/question/upvote/<int:questionID>/', views.upvote, name='upvote')
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

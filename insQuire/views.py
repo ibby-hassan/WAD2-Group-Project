@@ -146,3 +146,9 @@ def add_category(request):
     else:
         form = CategoryForm()
     return render(request, 'insQuire/add_category.html', {'form': form})
+
+def upvote(request, questionID):
+    question = Question.objects.get(id=questionID)
+    question.votes+=1
+    question.save()
+    return redirect("insQuire:category", slugifiedName = question.category.slugifiedName)
