@@ -12,10 +12,18 @@
             padding: 15px; /* 内边距 */
             margin-bottom: 30px; /* 底部外边距 */
         }
+        .vote-count {
+            display: inline-block;
+            padding: 5px 10px; /* 调整内边距 */
+            background-color: #ffd700; /* 黄色背景 */
+            border-radius: 5px; /* 圆角 */
+            color: #000; /* 黑色文字 */
+            font-weight: bold; /* 加粗文字 */
+            margin-right: 10px; /* 右边距 */
+        }
     </style>
 
     <h2>Welcome To Home Page</h2>
-    
 
     {% if recent_questions %}
         {% for question in recent_questions %}
@@ -33,13 +41,15 @@
                     <h5 class="card-title">{{ question.title }}</h5>
                     <p class="card-text">{{ question.content|truncatewords:10 }}</p>
                     <div class="btn-group" role="group" aria-label="Question actions">
+                        
                         <form method="POST" action="{% url 'insQuire:upvoteindex' questionID=question.id %}">
                             {% csrf_token %}
-                        <button type="submit" class="btn btn-success" >Upvote ({{ question.votes }})</button>
+                        <button type="submit" class="btn btn-success" >Upvote</button>
+                        <span class="vote-count">{{ question.votes }}</span>
                         </form>
                         <form method="POST" action="{% url 'insQuire:downvoteindex' questionID=question.id %}">
                             {% csrf_token %}
-                        <button type="submit" class="btn btn-danger">Downvote ({{ question.votes }})</button>
+                            <button type="button" class="btn btn-danger">Downvote</button>
                         </form>
                     </div>
                     <a href="{% url 'insQuire:question' question.id %}" class="btn btn-primary">View Question</a>
