@@ -17,5 +17,7 @@ urlpatterns = [
     path('login/', views.user_login, name='login'),
     path('restricted/', views.restricted, name='restricted'),
     path('logout/', views.user_logout, name='logout'),
+    path('askquestion/', views.askQuestion, name='askQuestion'),
+    path('add_category/', views.add_category, name='add_category'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

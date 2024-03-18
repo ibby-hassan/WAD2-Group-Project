@@ -14,4 +14,10 @@ class UserProfileForm(forms.ModelForm):
         model = UserProfile
         fields = ('website', 'picture',)
 
+class QuestionForm(forms.ModelForm):
+    class Meta:
+        model = Question
+        fields = ['title', 'content', 'category', 'tags']
 
+class CategoryForm(forms.Form):
+    name = forms.CharField(max_length=50, label='Category Name')

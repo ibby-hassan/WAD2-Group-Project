@@ -5,9 +5,9 @@
 {% endblock %}
 
 {% block main_block %}
-    {% if questions %}
-    <h2>{{ questions.title }}</h2>
-        <p>{{ questions.content }}</p>
+    {% if question %}
+    <h2>{{ question.title }}</h2>
+        <p>{{ question.content }}</p>
     {% else %}
         <p>Unknown category.</p>
     {% endif %}
