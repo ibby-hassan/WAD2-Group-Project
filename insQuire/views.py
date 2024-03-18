@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.http import HttpResponse
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from insQuire.forms import QuestionForm,CategoryForm
+from insQuire.forms import QuestionForm
 
 def index(request):
     context = {}
@@ -135,19 +135,6 @@ def askQuestion(request):
         form = QuestionForm()
     categories = Category.objects.all()
     return render(request, 'insQuire/askQuestion.html', {'form': form, 'categories': categories})
-
-def add_category(request):
-    if request.method == 'POST':
-        form = CategoryForm(request.POST)
-        if form.is_valid():
-            name = form.cleaned_data['name']
-            category = Category(name=name)
-            category.save()
-            return redirect('insQuire:index') 
-    else:
-        form = CategoryForm()
-    return render(request, 'insQuire/add_category.html', {'form': form})
-
 
 def upvote(request, questionID):
 

@@ -80,7 +80,6 @@
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active"><a class="nav-link" href="{% url 'insQuire:index' %}">Home</a></li>
                 <li class="nav-item active"><a class="nav-link" href="{% url 'insQuire:all_categories' %}">Categories</a></li>
-                <li class="nav-item active"><a class="nav-link" href="{% url 'insQuire:add_category' %}">add Categories</a></li>
                 {% if user.is_authenticated %}
                 <li class="nav-item active"><a class="nav-link" href="{% url 'insQuire:logout' %}">Logout</a></li>
                 {% else %}
