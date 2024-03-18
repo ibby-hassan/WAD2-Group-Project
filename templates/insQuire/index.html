@@ -9,8 +9,16 @@
     <p>This is the home page.</p>
 
     <div class="displayedQuestion">
-        {% if questions %}
-        {% endif %}
+        <h3>Recent Questions</h3>
+        <ul>
+            {% if recent_questions %}
+                {% for question in recent_questions %}
+                    <li><a href="{% url 'insQuire:question' question.id %}">{{ question.title }}</a></li>
+                {% endfor %}
+            {% else %}
+                <li>No recent questions found.</li>
+            {% endif %}
+        </ul>
     </div>
 
 {% endblock %}

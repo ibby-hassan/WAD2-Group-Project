@@ -8,6 +8,7 @@ from django.urls import reverse
 from django.http import HttpResponse
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from insQuire.forms import QuestionForm,CategoryForm
 
 def index(request):
     context = {}
@@ -52,10 +53,10 @@ def question(request, questionID):
 
     try:
         question = Question.objects.get(id=questionID)
-        context['questions'] = question
+        context['question'] = question  
 
     except Question.DoesNotExist:
-        context['questions'] = None
+        context['question'] = None
 
     return render(request, 'insQuire/question.html', context)
 
@@ -119,5 +120,48 @@ def restricted(request):
 @login_required
 def user_logout(request):
     logout(request)
-# Take the user back to the homepage.
     return redirect(reverse('insQuire:index'))
+
+def askQuestion(request):
+    if request.method == 'POST':
+        form = QuestionForm(request.POST)
+        if form.is_valid():
+            question = form.save(commit=False)
+            user_profile = request.user.userprofile
+            question.author = user_profile
+            question.save()
+            return redirect('insQuire:index')
+    else:
+        form = QuestionForm()
+    categories = Category.objects.all()
+    return render(request, 'insQuire/askQuestion.html', {'form': form, 'categories': categories})
+
+def add_category(request):
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            category = Category(name=name)
+            category.save()
+            return redirect('insQuire:index') 
+    else:
+        form = CategoryForm()
+    return render(request, 'insQuire/add_category.html', {'form': form})
+
+
+def upvote(request, questionID):
+
+    question = Question.objects.get(id=questionID)
+    question.votes+=1
+    question.save()
+    return redirect("insQuire:category", slugifiedName = question.category.slugifiedName)
+
+
+def downvote(request, questionID):
+    question = Question.objects.get(id=questionID)
+    question.votes-=1
+    question.save()
+    return redirect("insQuire:category", slugifiedName = question.category.slugifiedName)
+
+def cantvote(request, questionID):
+    return redirect("insQuire:login")

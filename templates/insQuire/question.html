@@ -5,10 +5,15 @@
 {% endblock %}
 
 {% block main_block %}
-    {% if questions %}
-    <h2>{{ questions.title }}</h2>
-        <p>{{ questions.content }}</p>
+    {% if question %}
+    <h2>{{ question.title }}</h2>
+        <p>content: {{ question.content }}</p>
+        <p>author: {{ question.author }}</p>
+        <p>category: {{ question.category }}</p>
+        <p>tags: {{ question.tags }}</p>
+        <p>votes: {{ question.votes }}</p>
+
     {% else %}
-        <p>Unknown category.</p>
+        <p>Unknown Questions.</p>
     {% endif %}
 {% endblock %}
