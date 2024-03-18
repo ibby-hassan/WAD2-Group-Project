@@ -22,13 +22,19 @@
             {% if forloop.counter0|divisibleby:4 %}
                 </div><div class="row">
             {% endif %}
+            
+            
+
             <div class="card" style="width: 18rem; margin-left: 3em ; margin-top: 3em; margin-bottom: 3em">
                 <div class="card-body">
                   <h5 class="card-title">{{ question.title }}</h5>
                   <p class="card-text">author: {{ question.author|truncatewords:10 }}</p>
                   <p class="card-text">{{ question.content|truncatewords:10 }}</p>
-                  <div>
                     <p class="card-text">votes: {{ question.votes }}</p>
+
+
+                    {% if user.is_authenticated %}
+                    <div class="btn-group-vertical">
                         <form method="POST" action="{% url 'insQuire:upvote' questionID=question.id %}">
                             {% csrf_token %}
                             <button type="submit" id="upvote-button"
@@ -36,7 +42,7 @@
                                 <img src="{% static "pictures/upvote.png"%}" alt="Upvote" style="width = 30px; height:30px">
                         </button>
                         </form> 
-
+                        
                         <form method="POST" action="{% url 'insQuire:downvote' questionID=question.id %}">
                             {% csrf_token %}
                             <button type="submit" id="downvote-button"
@@ -44,10 +50,33 @@
                                 <img src="{% static "pictures/downvote.png"%}" alt="Downvote" style="width = 30px; height:30px">
                             </button>
                         </form>
-                  </div>
-                  <a href="{% url 'insQuire:question' question.id %}" class="card-link">{{ question.title }}</a>
+                        </div>
+                        {% else %}
+                        <div>
+                            <div class="alert alert-primary" role="alert">
+                                Please <a href="{% url 'insQuire:login'%}" class="alert-link">Login</a> to vote.
+                            </div>
+                        <form method="POST" action="{% url 'insQuire:cantvote' questionID=question.id %}">
+                            {% csrf_token %}
+                            <button type="submit" id="downvote-button"
+                            class="btn btn-link btn-sm">
+                            <div class="btn-group-vertical">
+                                <img src="{% static "pictures/upvote.png"%}" alt="Upvote" style="width = 30px; height:30px">
+                                <img src="{% static "pictures/downvote.png"%}" alt="Downvote" style="width = 30px; height:30px">
+                            </div>
+                            </button>
+                        </form>
+                    </div>
+
+                        {% endif %}
+
+
+                  <a href="{% url 'insQuire:question' question.id %}" class="card-link">
+                    <button class="btn btn-primary" type="submit">View More</button>
+                  </a>
+
                 </div>
-            </div>
+            </div> 
         {% endfor %}
     </div>
     {% else %}

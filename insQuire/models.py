@@ -45,6 +45,8 @@ class Question(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     votes = models.IntegerField(default=0)
 
+        
+
     def __str__(self):
         return self.title
     
