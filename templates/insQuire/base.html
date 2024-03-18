@@ -35,7 +35,7 @@
                 right: 20px; /* 调整右边距 */
                 bottom: 20px; /* 底部距离 */
                 width: 300px;
-                background-color: #707172; /* 灰色底色 */
+                background-color: #4e96df; /* 灰色底色 */
                 padding: 20px;
                 overflow-y: auto;
                 border-radius: 10px; /* 圆角 */
@@ -47,29 +47,44 @@
             }
 
             .sidebar-item a {
-                color: #000000; /* 白色文字 */
+                color: #000000; 
                 text-decoration: none;
                 display: inline-block;
-                padding: 10px 20px; /* 调整内边距 */
-                border: 1px solid #dee2e6; /* 添加边框 */
-                border-radius: 5px; /* 圆角 */
+                padding: 10px 20px; 
+                border: 1px solid #282828; 
+                border-radius: 5px; 
             }
 
             .ask-question {
                 font-size: larger;
             }
 
+            .ask-question-btn {
+                background-color: #bef90b; 
+                border-color: #070707; 
+                color: #fff; 
+            }
+
+            .ask-question-btn:hover {
+                background-color: #0056b3; 
+                border-color: #0056b3; 
+            }
+
             .sidebar-divider {
-                border-top: 1px solid #dee2e6;
+                border-top: 1px solid #171818;
                 margin-top: 20px;
                 margin-bottom: 20px;
             }
 
             .question-box {
-                background-color: #f0f0f0; /* 浅灰色框 */
+                background-color: #faf8f8; 
                 padding: 10px;
                 margin-bottom: 10px;
                 border-radius: 5px;
+            }
+
+            .question-title {
+                margin-bottom: 5px;
             }
         </style>
         {% endblock %}
@@ -113,7 +128,7 @@
         <div class="sidebar-item">
             {% if user.is_authenticated %}
             <p class="ask-question">Ask a Question</p>
-            <a href="{% url 'insQuire:askQuestion' %}">Click here to ask a question</a>
+            <a href="{% url 'insQuire:askQuestion' %}" class="ask-question-btn">Click here to ask a question</a>
             {% else %}
             <p class="ask-question">Sign Up or Log In</p>
             <a href="{% url 'insQuire:register' %}">Sign Up</a>
@@ -121,12 +136,17 @@
             {% endif %}
             <hr class="sidebar-divider">
             <div class="question-box">
-                <!-- 用来存储问题的浅灰色框 -->
                 <p>Trading Questions</p>
+                {% if recent_questions %}
+                    {% for question in recent_questions|slice:":5" %}
+                        <p class="question-title">{{ forloop.counter }}. {{ question.title }}</p>
+                    {% endfor %}
+                {% else %}
+                    <p>No recent questions found.</p>
+                {% endif %}
             </div>
             <hr class="sidebar-divider">
             <div class="question-box">
-                <!-- 用来存储问题的浅灰色框 -->
                 <p>Featured Questions</p>
             </div>
         </div>

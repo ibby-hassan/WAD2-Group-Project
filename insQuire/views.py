@@ -14,11 +14,14 @@ def index(request):
     context = {}
 
     try:
-        context['Recent Questions'] = Question.objects.order_by('-dateAsked')[:10]
-        context['Popular Questions'] = Question.objects.order_by('-votes')[:10]
+        recent_questions = Question.objects.order_by('-dateAsked')[:10]
+        popular_questions = Question.objects.order_by('-votes')[:10]
+        context['recent_questions'] = recent_questions
+        context['popular_questions'] = popular_questions
     except Question.DoesNotExist:
-        context['Recent Questions'] = None
-        context['Popular Questions'] = None
+        context['recent_questions'] = None
+        context['popular_questions'] = None
+
     return render(request, 'insQuire/index.html', context)
 
 def categories(request):
