@@ -140,18 +140,28 @@ def askQuestion(request):
     return render(request, 'insQuire/askQuestion.html', {'form': form, 'categories': categories})
 
 def upvote(request, questionID):
-
     question = Question.objects.get(id=questionID)
     question.votes+=1
     question.save()
     return redirect("insQuire:category", slugifiedName = question.category.slugifiedName)
 
+def upvoteindex(request, questionID):
+    question = Question.objects.get(id=questionID)
+    question.votes+=1
+    question.save()
+    return redirect("insQuire:index")
 
 def downvote(request, questionID):
     question = Question.objects.get(id=questionID)
     question.votes-=1
     question.save()
     return redirect("insQuire:category", slugifiedName = question.category.slugifiedName)
+
+def downvoteindex(request, questionID):
+    question = Question.objects.get(id=questionID)
+    question.votes-=1
+    question.save()
+    return redirect("insQuire:index")
 
 def cantvote(request, questionID):
     return redirect("insQuire:login")

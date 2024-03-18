@@ -20,6 +20,8 @@ urlpatterns = [
     path('askquestion/', views.askQuestion, name='askQuestion'),
     path('categories/question/upvote/<int:questionID>/', views.upvote, name='upvote'),
     path('categories/question/downvote/<int:questionID>/', views.downvote, name='downvote'),
+    path('categories/question/upvoteindex/<int:questionID>/', views.upvoteindex, name='upvoteindex'),
+    path('categories/question/downvoteindex/<int:questionID>/', views.downvoteindex, name='downvoteindex'),
     path('categories/question/cantvote/<int:questionID>/', views.cantvote, name='cantvote')
 
 
