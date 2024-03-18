@@ -1,11 +1,17 @@
 {% extends 'insQuire/base.html' %}
-{% block title_block %}
-    {% if category %}
-        {{ category.name }} - InsQuire
-    {% else %}
-        Category Not Found - InsQuire
-    {% endif %}
-{% endblock %}
+
+<head>
+    {% block title_block %}
+        {% if category %}
+            {{ category.name }} - InsQuire
+        {% else %}
+            Category Not Found - InsQuire
+        {% endif %}
+    {% endblock %}    
+    {% load static %}
+    <script src="{% static '/javscript/upvote.js' %}"></script>
+</head>
+
 
 {% block main_block %}
     <h2>{{ category.name }}</h2>
@@ -19,13 +25,25 @@
             <div class="card" style="width: 18rem; margin-left: 3em ; margin-top: 3em; margin-bottom: 3em">
                 <div class="card-body">
                   <h5 class="card-title">{{ question.title }}</h5>
+                  <p class="card-text">author: {{ question.author|truncatewords:10 }}</p>
                   <p class="card-text">{{ question.content|truncatewords:10 }}</p>
                   <div>
-                    <p class="card-text">upvotes: {{ question.votes }}</p>
-                    <form method="POST" action="{% url 'insQuire:upvote' questionID=question.id %}">
-                        {% csrf_token %}
-                        <button type="submit">Upvote</button>
-                    </form> 
+                    <p class="card-text">votes: {{ question.votes }}</p>
+                        <form method="POST" action="{% url 'insQuire:upvote' questionID=question.id %}">
+                            {% csrf_token %}
+                            <button type="submit" id="upvote-button"
+                            class="btn btn-link btn-sm">
+                                <img src="{% static "pictures/upvote.png"%}" alt="Upvote" style="width = 30px; height:30px">
+                        </button>
+                        </form> 
+
+                        <form method="POST" action="{% url 'insQuire:downvote' questionID=question.id %}">
+                            {% csrf_token %}
+                            <button type="submit" id="downvote-button"
+                            class="btn btn-link btn-sm">
+                                <img src="{% static "pictures/downvote.png"%}" alt="Downvote" style="width = 30px; height:30px">
+                            </button>
+                        </form>
                   </div>
                   <a href="{% url 'insQuire:question' question.id %}" class="card-link">{{ question.title }}</a>
                 </div>

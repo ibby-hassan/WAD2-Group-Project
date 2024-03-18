@@ -152,3 +152,9 @@ def upvote(request, questionID):
     question.votes+=1
     question.save()
     return redirect("insQuire:category", slugifiedName = question.category.slugifiedName)
+
+def downvote(request, questionID):
+    question = Question.objects.get(id=questionID)
+    question.votes-=1
+    question.save()
+    return redirect("insQuire:category", slugifiedName = question.category.slugifiedName)

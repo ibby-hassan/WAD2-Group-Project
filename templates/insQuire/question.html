@@ -7,8 +7,13 @@
 {% block main_block %}
     {% if question %}
     <h2>{{ question.title }}</h2>
-        <p>{{ question.content }}</p>
+        <p>content: {{ question.content }}</p>
+        <p>author: {{ question.author }}</p>
+        <p>category: {{ question.category }}</p>
+        <p>tags: {{ question.tags }}</p>
+        <p>votes: {{ question.votes }}</p>
+
     {% else %}
-        <p>Unknown category.</p>
+        <p>Unknown Questions.</p>
     {% endif %}
 {% endblock %}
