@@ -5,20 +5,56 @@
 {% endblock %}
 
 {% block main_block %}
-    <h2>Index Page</h2>
-    <p>This is the home page.</p>
+    <style>
+        .question-card {
+            background-color: #b9b3b3; /* 灰色背景 */
+            border-radius: 20px; /* 圆角 */
+            padding: 15px; /* 内边距 */
+            margin-bottom: 30px; /* 底部外边距 */
+        }
+    </style>
 
-    <div class="displayedQuestion">
-        <h3>Recent Questions</h3>
-        <ul>
-            {% if recent_questions %}
-                {% for question in recent_questions %}
-                    <li><a href="{% url 'insQuire:question' question.id %}">{{ question.title }}</a></li>
-                {% endfor %}
+    <h2>Welcome To Home Page</h2>
+    
+
+    {% if recent_questions %}
+        {% for question in recent_questions %}
+            <div class="question-card card">
+                <div class="card-body">
+                    <div class="user-info text-center mb-3">
+                        {% if question.author.picture %}
+                            <img src="{{ question.author.picture.url }}" alt="User Avatar" class="user-picture rounded-circle">
+                        {% endif %}
+                    </div>
+                    <h5 class="card-title">{{ question.author.user.username }}</h5>
+                    {% if question.dateAsked %}
+                        <p class="text-muted" style="font-size: smaller;">Date posted: {{ question.dateAsked|date:"Y-m-d H:i:s" }}</p>
+                    {% endif %}
+                    <h5 class="card-title">{{ question.title }}</h5>
+                    <p class="card-text">{{ question.content|truncatewords:10 }}</p>
+                    <div class="btn-group" role="group" aria-label="Question actions">
+                        <button type="button" class="btn btn-success">Upvote ({{ question.votes }})</button>
+                        <button type="button" class="btn btn-danger">Downvote ({{ question.votes }})</button>
+                    </div>
+                    <a href="{% url 'insQuire:question' question.id %}" class="btn btn-primary">View Question</a>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No recent questions found.</p>
+    {% endif %}
+{% endblock %}
+
+{% block sidebar_block %}
+    <div class="sidebar">
+        <div class="sidebar-item">
+            {% if user.is_authenticated %}
+                <a href="{% url 'insQuire:ask_question' %}">Click here to ask a question</a>
             {% else %}
-                <li>No recent questions found.</li>
+                <p>Sign up or log in to ask a question</p>
+                <a href="{% url 'insQuire:signup' %}">Sign Up</a>
+                <a href="{% url 'insQuire:login' %}">Log In</a>
             {% endif %}
-        </ul>
+        </div>
     </div>
-
 {% endblock %}

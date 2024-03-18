@@ -1,19 +1,31 @@
 {% extends 'insQuire/base.html' %}
 
 {% block title_block %}
-
+    {% if question %}
+        {{ question.title }}
+    {% else %}
+        Unknown Question
+    {% endif %}
 {% endblock %}
 
 {% block main_block %}
-    {% if question %}
-    <h2>{{ question.title }}</h2>
-        <p>content: {{ question.content }}</p>
-        <p>author: {{ question.author }}</p>
-        <p>category: {{ question.category }}</p>
-        <p>tags: {{ question.tags }}</p>
-        <p>votes: {{ question.votes }}</p>
-
-    {% else %}
-        <p>Unknown Questions.</p>
-    {% endif %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                {% if question %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="card-title">{{ question.title }}</h2>
+                            <p class="card-text">Content: {{ question.content }}</p>
+                            <p class="card-text">Author: {{ question.author }}</p>
+                            <p class="card-text">Category: {{ question.category }}</p>
+                            <p class="card-text">Votes: {{ question.votes }}</p>
+                        </div>
+                    </div>
+                {% else %}
+                    <p>Unknown Question</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 {% endblock %}
