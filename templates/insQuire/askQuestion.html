@@ -11,27 +11,23 @@
         <form method="post">
             {% csrf_token %}
             <div class="mb-3">
-                <label for="question_title" class="form-label">Question Title:</label>
-                <input type="text" class="form-control" id="question_title" name="question_title" required>
+                <label for="id_title" class="form-label">Question Title:</label>
+                <input type="text" class="form-control" id="id_title" name="title" required>
             </div>
             <div class="mb-3">
-                <label for="question_content" class="form-label">Question Content:</label>
-                <textarea class="form-control" id="question_content" name="question_content" rows="5" required></textarea>
+                <label for="id_content" class="form-label">Question Content:</label>
+                <textarea class="form-control" id="id_content" name="content" rows="5" required></textarea>
             </div>
             <div class="mb-3">
-                <label for="category_select" class="form-label">Select a category for your question:</label>
-                <select class="form-select" id="category_select" name="category" required>
+                <label for="id_category" class="form-label">Select a category for your question:</label>
+                <select class="form-select" id="id_category" name="category" required>
                     <option value="" selected disabled>Select a category</option>
                     {% for category in categories %}
                         <option value="{{ category.id }}">{{ category.name }}</option>
                     {% endfor %}
                 </select>
             </div>
-            <div class="mb-3">
-                <label for="tags" class="form-label">Tags:</label>
-                <input type="text" class="form-control" id="tags" name="tags" placeholder="Enter tags separated by commas">
-                <small id="tagsHelp" class="form-text text-muted">Enter tags separated by commas.</small>
-            </div>
+            
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
