@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render
 from insQuire.models import Category, Question
 from django.db import models
@@ -5,10 +6,12 @@ from .forms import UserForm,UserProfileForm
 from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from insQuire.forms import QuestionForm
+from django.views.decorators.csrf import csrf_exempt
+
 
 def index(request):
     context = {}
@@ -139,13 +142,17 @@ def askQuestion(request):
     categories = Category.objects.all()
     return render(request, 'insQuire/askQuestion.html', {'form': form, 'categories': categories})
 
-def upvote(request, questionID):
+# def upvote(request, questionID):
+#     question = Question.objects.get(id=questionID)
+#     question.votes+=1
+#     question.save()
+#     return redirect("insQuire:category", slugifiedName = question.category.slugifiedName)
 
+def upvoteindex(request, questionID):
     question = Question.objects.get(id=questionID)
     question.votes+=1
     question.save()
-    return redirect("insQuire:category", slugifiedName = question.category.slugifiedName)
-
+    return redirect("insQuire:index")
 
 def downvote(request, questionID):
     question = Question.objects.get(id=questionID)
@@ -153,5 +160,27 @@ def downvote(request, questionID):
     question.save()
     return redirect("insQuire:category", slugifiedName = question.category.slugifiedName)
 
-def cantvote(request, questionID):
-    return redirect("insQuire:login")
+def downvoteindex(request, questionID):
+    question = Question.objects.get(id=questionID)
+    question.votes-=1
+    question.save()
+    return redirect("insQuire:index")
+
+@csrf_exempt
+def upvote1(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        question = Question.objects.get(id=data['question_id'])
+        question.votes += 1
+        question.save()
+        return JsonResponse({'votes': question.votes})
+    
+@csrf_exempt
+def downvote1(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        question = Question.objects.get(id=data['question_id'])
+        question.votes -= 1
+        question.save()
+        return JsonResponse({'votes': question.votes})
+    

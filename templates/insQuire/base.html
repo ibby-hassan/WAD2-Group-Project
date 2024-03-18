@@ -119,6 +119,8 @@
         </form>
     </nav>
     <main>
+        {% load static %}
+        <script src="{% static 'javascript/upvote.js' %}"></script>
         {% block main_block %}
         <p>Content goes here </p>
         {% endblock %}
