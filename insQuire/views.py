@@ -127,12 +127,13 @@ def askQuestion(request):
         form = QuestionForm(request.POST)
         if form.is_valid():
             question = form.save(commit=False)
-            question.author = request.user
-            question.save() 
-            return redirect('insQuire:index')  
+            user_profile = request.user.userprofile
+            question.author = user_profile
+            question.save()
+            return redirect('insQuire:index')
     else:
         form = QuestionForm()
-    categories = Category.objects.all()  
+    categories = Category.objects.all()
     return render(request, 'insQuire/askQuestion.html', {'form': form, 'categories': categories})
 
 def add_category(request):
