@@ -46,6 +46,8 @@ class Question(models.Model):
     tags = models.ManyToManyField(Tag, blank=True)
     votes = models.IntegerField(default=0)
 
+        
+
     def __str__(self):
         return self.title
     
