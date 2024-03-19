@@ -25,8 +25,6 @@
                 </div><div class="row">
             {% endif %}
             
-            
-
             <div class="card" style="width: 18rem; margin-left: 3em ; margin-top: 3em; margin-bottom: 3em">
                 <div class="card-body">
                   <h5 class="card-title">{{ question.title }}</h5>
@@ -37,11 +35,8 @@
                     <span class="card-text" id="votes{{question.id}}">{{ question.votes }}</span>
                   </div>
 
-
-
-
                     {% if user.is_authenticated %}
-                    <div class="btn-group-vertical">
+                        <div class="btn-group-vertical">
                             <button type="button" id="upvote-button" class="btn btn-link btn-sm" onclick="upVote({{ question.id }})">
                                 <img src="{% static "pictures/upvote.png"%}" alt="Upvote" style="width = 30px; height:30px">
                             </button>
@@ -49,8 +44,10 @@
                             <button type="button" id="downvote-button" class="btn btn-link btn-sm" onclick="downVote({{ question.id }})">
                                 <img src="{% static "pictures/downvote.png"%}" alt="Downvote" style="width = 30px; height:30px">
                             </button>
-
                         </div>
+
+                        <a href="{% url 'insQuire:answerQuestion' question.id %}">Click here to answer</a>
+
                         {% else %}
                         <div>
                             <div class="alert alert-primary" role="alert">

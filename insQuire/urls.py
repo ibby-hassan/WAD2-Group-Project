@@ -18,6 +18,7 @@ urlpatterns = [
     path('restricted/', views.restricted, name='restricted'),
     path('logout/', views.user_logout, name='logout'),
     path('askquestion/', views.askQuestion, name='askQuestion'),
+    path('answerquestion/<int:questionID>/', views.ansQuestion, name='answerQuestion'),
     path('categories/question/upvote/', views.upvote1, name='upvote1'),
     path('categories/question/downvote/', views.downvote1, name='downvote1'),
 

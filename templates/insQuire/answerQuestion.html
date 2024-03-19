@@ -1,0 +1,18 @@
+{% extends 'insQuire/base.html' %}
+
+{% block title_block %}
+    Answer Question
+{% endblock %}
+
+{% block main_block %}
+  <form method="post">
+    {% csrf_token %}
+
+    <div class="form-group">
+      <label for="exampleFormControlTextarea1">Answer question</label>
+      <textarea class="form-control" id="exampleFormControlTextarea1" name="content" rows="3"></textarea>
+    </div>
+    <button type="submit" >Submit</button>
+
+  </form>
+{% endblock %}

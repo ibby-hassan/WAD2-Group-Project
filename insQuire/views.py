@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from insQuire.forms import QuestionForm
+from insQuire.forms import QuestionForm, AnswerForm
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -141,6 +141,23 @@ def askQuestion(request):
         form = QuestionForm()
     categories = Category.objects.all()
     return render(request, 'insQuire/askQuestion.html', {'form': form, 'categories': categories})
+
+def ansQuestion(request, questionID):
+    if request.method == 'POST':
+        form = AnswerForm(request.POST)
+        if form.is_valid():            
+            question = Question.objects.get(id=questionID)
+            categorySlugifiedName = question.category.slugifiedName
+            user = request.user.userprofile
+            answer = form.save(commit=False)
+            answer.question = question
+            answer.author = user
+            answer.save()
+            return redirect(reverse('insQuire:category', args=[categorySlugifiedName]))
+    else:
+        form = AnswerForm()
+    return render(request, 'insQuire/answerQuestion.html', {'form': form})
+
 
 
 @csrf_exempt
