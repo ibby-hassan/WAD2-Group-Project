@@ -142,11 +142,10 @@ def askQuestion(request):
     categories = Category.objects.all()
     return render(request, 'insQuire/askQuestion.html', {'form': form, 'categories': categories})
 
-def ansQuestion(request):
+def ansQuestion(request, questionID):
     if request.method == 'POST':
         form = AnswerForm(request.POST)
         if form.is_valid():   
-            questionID = json.loads(request.body)        
             question = Question.objects.get(id=questionID)
             categorySlugifiedName = question.category.slugifiedName
             user = request.user.userprofile
@@ -155,6 +154,21 @@ def ansQuestion(request):
             answer.author = user
             answer.save()
             return redirect(reverse('insQuire:category', args=[categorySlugifiedName]))
+    else:
+        form = AnswerForm()
+    return render(request, 'insQuire/answerQuestion.html', {'form': form})
+
+def ansQuestionhtml(request, questionID):
+    if request.method == 'POST':
+        form = AnswerForm(request.POST)
+        if form.is_valid():   
+            question = Question.objects.get(id=questionID)
+            user = request.user.userprofile
+            answer = form.save(commit=False)
+            answer.question = question
+            answer.author = user
+            answer.save()
+            return redirect(reverse('insQuire:question', args=[questionID]))
     else:
         form = AnswerForm()
     return render(request, 'insQuire/answerQuestion.html', {'form': form})

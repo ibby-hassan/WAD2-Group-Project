@@ -20,6 +20,43 @@
                             <p class="card-text">Author: {{ question.author }}</p>
                             <p class="card-text">Category: {{ question.category }}</p>
                             <p class="card-text">Votes: {{ question.votes }}</p>
+
+                            {% if user.is_authenticated %}
+
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ansQueshtml{{question.id}}">
+                                Answer Question
+                                </button>
+        
+        
+                                <!-- Modal -->
+                                <div class="modal fade" id="ansQueshtml{{question.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h5 class="modal-title">Answer {{ question.title }}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!--form to submit answer-->
+                                            <form method="post" action="{% url 'insQuire:answerQuestionhtml' question.id %}">
+                                                {% csrf_token %}
+                                                <div class="form-group">
+                                                <label>Answer question</label>
+                                                <textarea class="form-control" name="content" rows="3"></textarea>
+                                                </div>
+                                                <button type="submit" >Submit</button>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+
                             <!-- https://stackoverflow.com/questions/42080864/set-in-
                             a-queryset-object-in-django#:~:text=blog%20to%20access%20the%20related,django%20puts%20in%20for%20you.&text=The%20reason%20the%20reverse%20is,the%20reverse%20is%20a%20queryset. -->
                             {% for ans in question.answer_set.all %}
