@@ -146,8 +146,8 @@ def askQuestion(request):
 @csrf_exempt
 def upvote1(request):
     if request.method == 'POST':
-        data = json.loads(request.body)
-        question = Question.objects.get(id=data['question_id'])
+        quesID = json.loads(request.body)
+        question = Question.objects.get(id=quesID['question_id'])
         question.votes += 1
         question.save()
         return JsonResponse({'votes': question.votes})
@@ -155,8 +155,8 @@ def upvote1(request):
 @csrf_exempt
 def downvote1(request):
     if request.method == 'POST':
-        data = json.loads(request.body)
-        question = Question.objects.get(id=data['question_id'])
+        quesID = json.loads(request.body)
+        question = Question.objects.get(id=quesID['question_id'])
         question.votes -= 1
         question.save()
         return JsonResponse({'votes': question.votes})

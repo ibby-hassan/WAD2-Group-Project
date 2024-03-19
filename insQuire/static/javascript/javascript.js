@@ -3,7 +3,7 @@ function notLoggedIn(){
     alert('not logged in');
 }
 
-// reference https://testdriven.io/blog/django-ajax-xhr/
+// reference from https://testdriven.io/blog/django-ajax-xhr/
 function upVote(id){
     fetch(`${window.location.origin}/insQuire/categories/question/upvote/`, { 
         method: 'POST',
@@ -44,7 +44,7 @@ function downVote(id){
 }
 
 
-// https://docs.djangoproject.com/en/3.0/ref/csrf/#ajax
+// reference from https://docs.djangoproject.com/en/3.0/ref/csrf/#ajax
 function getCookie(name) {
     var cookieVal = null;
     if (document.cookie && document.cookie !== '') {

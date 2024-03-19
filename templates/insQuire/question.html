@@ -20,6 +20,11 @@
                             <p class="card-text">Author: {{ question.author }}</p>
                             <p class="card-text">Category: {{ question.category }}</p>
                             <p class="card-text">Votes: {{ question.votes }}</p>
+                            <!-- https://stackoverflow.com/questions/42080864/set-in-
+                            a-queryset-object-in-django#:~:text=blog%20to%20access%20the%20related,django%20puts%20in%20for%20you.&text=The%20reason%20the%20reverse%20is,the%20reverse%20is%20a%20queryset. -->
+                            {% for ans in question.answer_set.all %}
+                                <p class="card-text">Answers: {{ ans }}</p>
+                            {% endfor %}
                         </div>
                     </div>
                 {% else %}
