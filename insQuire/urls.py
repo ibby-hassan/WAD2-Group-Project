@@ -20,7 +20,6 @@ urlpatterns = [
     path('askquestion/', views.askQuestion, name='askQuestion'),
     path('categories/question/upvote/', views.upvote1, name='upvote1'),
     path('categories/question/downvote/', views.downvote1, name='downvote1'),
-    path('categories/question/upvoteindex/<int:questionID>/', views.upvoteindex, name='upvoteindex'),
-    path('categories/question/downvoteindex/<int:questionID>/', views.downvoteindex, name='downvoteindex'),
+
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

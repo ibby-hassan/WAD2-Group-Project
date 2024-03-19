@@ -14,7 +14,7 @@
 
 {% block main_block %}
 {% load static %}
-<script src="{% static 'javascript/upvote.js' %}"></script>
+<script src="{% static 'javascript/javascript.js' %}"></script>
 
     <h2>{{ category.name }}</h2>
 
@@ -32,7 +32,12 @@
                   <h5 class="card-title">{{ question.title }}</h5>
                   <p class="card-text">author: {{ question.author|truncatewords:10 }}</p>
                   <p class="card-text">{{ question.content|truncatewords:10 }}</p>
-                <p class="card-text" id="votes{{question.id}}">votes: {{ question.votes }}</p>
+                  <div>
+                    <span class="card-text">votes: </span>
+                    <span class="card-text" id="votes{{question.id}}">{{ question.votes }}</span>
+                  </div>
+
+
 
 
                     {% if user.is_authenticated %}

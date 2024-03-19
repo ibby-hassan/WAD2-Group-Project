@@ -42,15 +42,10 @@
                     <p class="card-text">{{ question.content|truncatewords:10 }}</p>
                     <div class="btn-group" role="group" aria-label="Question actions">
                         
-                        <form method="POST" action="{% url 'insQuire:upvoteindex' questionID=question.id %}">
-                            {% csrf_token %}
-                        <button type="submit" class="btn btn-success" >Upvote</button>
-                        <span class="vote-count">{{ question.votes }}</span>
-                        </form>
-                        <form method="POST" action="{% url 'insQuire:downvoteindex' questionID=question.id %}">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-danger">Downvote</button>
-                        </form>
+                        <button type="button" class="btn btn-success" onclick="upVote({{ question.id }})">Upvote</button>
+                        <span class="vote-count" id="votes{{question.id}}">{{ question.votes }}</span>
+                        <button type="submit" class="btn btn-danger" onclick="downVote({{ question.id }})">Downvote</button>
+
                     </div>
                     <a href="{% url 'insQuire:question' question.id %}" class="btn btn-primary">View Question</a>
                 </div>

@@ -1,4 +1,4 @@
-
+// alerts user when they are not logged in
 function notLoggedIn(){
     alert('not logged in');
 }
@@ -11,16 +11,16 @@ function upVote(id){
             "X-Requested-With": "XMLHttpRequest",
             "X-CSRFToken": getCookie("csrftoken")
         },
-        body: JSON.stringify({ question_id:id })  // Send the question id in the request body
-    }
+        body: JSON.stringify({ question_id:id })  // Send question id in request body
+        }
     )
-    .then(response => response.json())
-    .then(data => {
-        console.log(data)
+    .then(response => response.json()) // response from fetch is converted to json
+    .then(voteReturn => { // json format file, from response.json() promise
+        console.log(voteReturn)
         // Update the vote count in the HTML
         var votes = document.getElementById('votes' + id);
-        votes.textContent = 'votes: ' + data.votes;
-    }
+        votes.textContent = voteReturn.votes; // the updated votes are retrived from json file and set
+        }
     )
 }
 
@@ -31,14 +31,14 @@ function downVote(id){
             "X-Requested-With": "XMLHttpRequest",
             "X-CSRFToken": getCookie("csrftoken")
         },
-        body: JSON.stringify({ question_id:id })  // Send the question id in the request body
+        body: JSON.stringify({ question_id:id })  
     }
     )
-    .then(response => response.json())
-    .then(data => {
-        console.log(data)
+    .then(response => response.json()) 
+    .then(voteReturn => { 
+        console.log(voteReturn)
         var votes = document.getElementById('votes' + id);
-        votes.textContent = 'votes: ' + data.votes;
+        votes.textContent = voteReturn.votes; 
     }
     )
 }
@@ -46,16 +46,16 @@ function downVote(id){
 
 // https://docs.djangoproject.com/en/3.0/ref/csrf/#ajax
 function getCookie(name) {
-    var cookieValue = null;
+    var cookieVal = null;
     if (document.cookie && document.cookie !== '') {
         var cookies = document.cookie.split(';');
         for (var i = 0; i < cookies.length; i++) {
             var cookie = cookies[i].trim();
             if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                cookieVal = decodeURIComponent(cookie.substring(name.length + 1));
                 break;
             }
         }
     }
-    return cookieValue;
+    return cookieVal;
 }
