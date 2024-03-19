@@ -142,10 +142,11 @@ def askQuestion(request):
     categories = Category.objects.all()
     return render(request, 'insQuire/askQuestion.html', {'form': form, 'categories': categories})
 
-def ansQuestion(request, questionID):
+def ansQuestion(request):
     if request.method == 'POST':
         form = AnswerForm(request.POST)
-        if form.is_valid():            
+        if form.is_valid():   
+            questionID = json.loads(request.body)        
             question = Question.objects.get(id=questionID)
             categorySlugifiedName = question.category.slugifiedName
             user = request.user.userprofile

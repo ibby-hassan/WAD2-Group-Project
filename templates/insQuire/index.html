@@ -7,19 +7,19 @@
 {% block main_block %}
     <style>
         .question-card {
-            background-color: #b9b3b3; /* 灰色背景 */
-            border-radius: 20px; /* 圆角 */
-            padding: 15px; /* 内边距 */
-            margin-bottom: 30px; /* 底部外边距 */
+            background-color: #b9b3b3; 
+            border-radius: 20px; 
+            padding: 15px; 
+            margin-bottom: 30px; 
         }
         .vote-count {
             display: inline-block;
-            padding: 5px 10px; /* 调整内边距 */
-            background-color: #ffd700; /* 黄色背景 */
-            border-radius: 5px; /* 圆角 */
-            color: #000; /* 黑色文字 */
-            font-weight: bold; /* 加粗文字 */
-            margin-right: 10px; /* 右边距 */
+            padding: 5px 10px; 
+            background-color: #ffd700; 
+            border-radius: 5px; 
+            color: #000; 
+            font-weight: bold; 
+            margin-right: 10px; 
         }
     </style>
 
@@ -48,6 +48,7 @@
 
                     </div>
                     <a href="{% url 'insQuire:question' question.id %}" class="btn btn-primary">View Question</a>
+                    <a href="{% url 'insQuire:answerQuestion' %}" class="btn btn-primary">Answer Question</a>
                 </div>
             </div>
         {% endfor %}
