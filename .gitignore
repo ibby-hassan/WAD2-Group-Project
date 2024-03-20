@@ -161,3 +161,6 @@ cython_debug/
 
 /.history
 /.vscode
+
+# Ignore Django migrations
+insQuire/migrations/
