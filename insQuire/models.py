@@ -41,7 +41,7 @@ class Question(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
     dateAsked = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    author = models.ForeignKey(UserProfile, on_delete=models.CASCADE, default=1)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     votes = models.IntegerField(default=0)
 
@@ -52,7 +52,7 @@ class Question(models.Model):
 class Answer(models.Model):
     content = models.TextField()
     dateAnswered = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    author = models.ForeignKey(UserProfile, on_delete=models.CASCADE, default=1)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     votes = models.IntegerField(default=0)
 
