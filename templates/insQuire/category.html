@@ -34,7 +34,7 @@
                     <span class="card-text">votes: </span>
                     <span class="card-text" id="votes{{question.id}}">{{ question.votes }}</span>
                   </div>
-
+                  <!--if user is logged in then they can vote and answer questions-->
                     {% if user.is_authenticated %}
                         <div class="btn-group-vertical">
                             <button type="button" id="upvote-button" class="btn btn-link btn-sm" onclick="upVote({{ question.id }})">
@@ -46,12 +46,47 @@
                             </button>
                         </div>
 
-                        <a href="{% url 'insQuire:answerQuestion' question.id %}">Click here to answer</a>
+                        <!--<a href="{% url 'insQuire:answerQuestion' question.id %}">Click here to answer</a>-->
 
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ansQues{{question.id}}">
+                        Answer Question
+                        </button>
+
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="ansQues{{question.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title">Answer {{ question.title }}</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <div class="modal-body">
+                                    <!--form to subtmit answer in modal-->
+                                    <form method="post" action="{% url 'insQuire:answerQuestion' question.id %}">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                        <label>Answer question</label>
+                                        <textarea class="form-control" name="content" rows="3"></textarea>
+                                        </div>
+                                        <button type="submit" >Submit</button>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--if user is not logged in then they will be prompted to log in
+                    if they try to press the voting buttons, they will be redirected to login page-->
                         {% else %}
                         <div>
                             <div class="alert alert-primary" role="alert">
-                                Please <a href="{% url 'insQuire:login'%}" class="alert-link">Login</a> to vote.
+                                Please <a href="{% url 'insQuire:login'%}" class="alert-link">Login</a> to vote or answer questions.
                             </div>
 
                             <button type="button" class="btn btn-link btn-sm" onclick="notLoggedIn()">
@@ -62,9 +97,10 @@
                             </button>
                         </div>
                         {% endif %}
-                  <a href="{% url 'insQuire:question' question.id %}" class="card-link">
-                    <button class="btn btn-primary" type="submit">View More</button>
-                  </a>
+                        <!--user will be able to view question no matter if they are signed in or not-->
+                        <a href="{% url 'insQuire:question' question.id %}" class="card-link">
+                            <button class="btn btn-primary" type="submit">View More</button>
+                        </a>
                 </div>
             </div> 
         {% endfor %}

@@ -48,7 +48,7 @@
 
                     </div>
                     <a href="{% url 'insQuire:question' question.id %}" class="btn btn-primary">View Question</a>
-                    <a href="{% url 'insQuire:answerQuestion' %}" class="btn btn-primary">Answer Question</a>
+                    <a href="{% url 'insQuire:answerQuestion' question.id %}" class="btn btn-primary">Answer Question</a>
                 </div>
             </div>
         {% endfor %}
