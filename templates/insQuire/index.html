@@ -7,19 +7,19 @@
 {% block main_block %}
     <style>
         .question-card {
-            background-color: #b9b3b3; /* 灰色背景 */
-            border-radius: 20px; /* 圆角 */
-            padding: 15px; /* 内边距 */
-            margin-bottom: 30px; /* 底部外边距 */
+            background-color: #b9b3b3; 
+            border-radius: 20px; 
+            padding: 15px; 
+            margin-bottom: 30px; 
         }
         .vote-count {
             display: inline-block;
-            padding: 5px 10px; /* 调整内边距 */
-            background-color: #ffd700; /* 黄色背景 */
-            border-radius: 5px; /* 圆角 */
-            color: #000; /* 黑色文字 */
-            font-weight: bold; /* 加粗文字 */
-            margin-right: 10px; /* 右边距 */
+            padding: 5px 10px; 
+            background-color: #ffd700; 
+            border-radius: 5px; 
+            color: #000; 
+            font-weight: bold; 
+            margin-right: 10px; 
         }
     </style>
 
@@ -42,17 +42,43 @@
                     <p class="card-text">{{ question.content|truncatewords:10 }}</p>
                     <div class="btn-group" role="group" aria-label="Question actions">
                         
-                        <form method="POST" action="{% url 'insQuire:upvoteindex' questionID=question.id %}">
-                            {% csrf_token %}
-                        <button type="submit" class="btn btn-success" >Upvote</button>
-                        <span class="vote-count">{{ question.votes }}</span>
-                        </form>
-                        <form method="POST" action="{% url 'insQuire:downvoteindex' questionID=question.id %}">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-danger">Downvote</button>
-                        </form>
+                        <button type="button" class="btn btn-success" onclick="upVote({{ question.id }})">Upvote</button>
+                        <span class="vote-count" id="votes{{question.id}}">{{ question.votes }}</span>
+                        <button type="submit" class="btn btn-danger" onclick="downVote({{ question.id }})">Downvote</button>
+
                     </div>
-                    <a href="{% url 'insQuire:question' question.id %}" class="btn btn-primary">View Question</a>
+                    <a href="{% url 'insQuire:question' question.id %}" class="btn btn-primary">View Question</a>                    
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ansQueshtml{{question.id}}">
+                        Answer Question
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="ansQueshtml{{question.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title">Answer {{ question.title }}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                                <!--form to submit answer-->
+                                <form method="post" action="{% url 'insQuire:answerQuestionhtml' question.id %}">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                    <label>Answer question</label>
+                                    <textarea class="form-control" name="content" rows="3"></textarea>
+                                    </div>
+                                    <button type="submit" >Submit</button>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         {% endfor %}

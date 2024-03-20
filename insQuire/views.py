@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from insQuire.forms import QuestionForm
+from insQuire.forms import QuestionForm, AnswerForm
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -142,35 +142,44 @@ def askQuestion(request):
     categories = Category.objects.all()
     return render(request, 'insQuire/askQuestion.html', {'form': form, 'categories': categories})
 
-# def upvote(request, questionID):
-#     question = Question.objects.get(id=questionID)
-#     question.votes+=1
-#     question.save()
-#     return redirect("insQuire:category", slugifiedName = question.category.slugifiedName)
+def ansQuestion(request, questionID):
+    if request.method == 'POST':
+        form = AnswerForm(request.POST)
+        if form.is_valid():   
+            question = Question.objects.get(id=questionID)
+            categorySlugifiedName = question.category.slugifiedName
+            user = request.user.userprofile
+            answer = form.save(commit=False)
+            answer.question = question
+            answer.author = user
+            answer.save()
+            return redirect(reverse('insQuire:category', args=[categorySlugifiedName]))
+    else:
+        form = AnswerForm()
+    return render(request, 'insQuire/answerQuestion.html', {'form': form})
 
-def upvoteindex(request, questionID):
-    question = Question.objects.get(id=questionID)
-    question.votes+=1
-    question.save()
-    return redirect("insQuire:index")
+def ansQuestionhtml(request, questionID):
+    if request.method == 'POST':
+        form = AnswerForm(request.POST)
+        if form.is_valid():   
+            question = Question.objects.get(id=questionID)
+            user = request.user.userprofile
+            answer = form.save(commit=False)
+            answer.question = question
+            answer.author = user
+            answer.save()
+            return redirect(reverse('insQuire:question', args=[questionID]))
+    else:
+        form = AnswerForm()
+    return render(request, 'insQuire/answerQuestion.html', {'form': form})
 
-def downvote(request, questionID):
-    question = Question.objects.get(id=questionID)
-    question.votes-=1
-    question.save()
-    return redirect("insQuire:category", slugifiedName = question.category.slugifiedName)
 
-def downvoteindex(request, questionID):
-    question = Question.objects.get(id=questionID)
-    question.votes-=1
-    question.save()
-    return redirect("insQuire:index")
 
 @csrf_exempt
 def upvote1(request):
     if request.method == 'POST':
-        data = json.loads(request.body)
-        question = Question.objects.get(id=data['question_id'])
+        quesID = json.loads(request.body)
+        question = Question.objects.get(id=quesID['question_id'])
         question.votes += 1
         question.save()
         return JsonResponse({'votes': question.votes})
@@ -178,8 +187,8 @@ def upvote1(request):
 @csrf_exempt
 def downvote1(request):
     if request.method == 'POST':
-        data = json.loads(request.body)
-        question = Question.objects.get(id=data['question_id'])
+        quesID = json.loads(request.body)
+        question = Question.objects.get(id=quesID['question_id'])
         question.votes -= 1
         question.save()
         return JsonResponse({'votes': question.votes})

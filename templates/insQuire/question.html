@@ -9,6 +9,15 @@
 {% endblock %}
 
 {% block main_block %}
+<style>
+    .question-card {
+        background-color: #b9b3b3; 
+        border-radius: 20px; 
+        padding: 15px; 
+        margin-bottom: 30px; 
+    }
+</style>
+
     <div class="container">
         <div class="row">
             <div class="col-md-8 offset-md-2">
@@ -20,12 +29,78 @@
                             <p class="card-text">Author: {{ question.author }}</p>
                             <p class="card-text">Category: {{ question.category }}</p>
                             <p class="card-text">Votes: {{ question.votes }}</p>
-                        </div>
+
+                            {% if user.is_authenticated %}
+
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ansQueshtml{{question.id}}">
+                                    Answer Question
+                                </button>
+    
+                                <!-- Modal -->
+                                <div class="modal fade" id="ansQueshtml{{question.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h5 class="modal-title">Answer {{ question.title }}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!--form to submit answer-->
+                                            <form method="post" action="{% url 'insQuire:answerQuestionhtml' question.id %}">
+                                                {% csrf_token %}
+                                                <div class="form-group">
+                                                <label>Answer question</label>
+                                                <textarea class="form-control" name="content" rows="3"></textarea>
+                                                </div>
+                                                <button type="submit" >Submit</button>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <h4>Answers: </h4>
+
+                            <!-- https://stackoverflow.com/questions/42080864/set-in-
+                            a-queryset-object-in-django#:~:text=blog%20to%20access%20the%20related,django%20puts%20in%20for%20you.&text=The%20reason%20the%20reverse%20is,the%20reverse%20is%20a%20queryset. -->
+                            {% if question.answer_set.all %}
+                            {% for ans in question.answer_set.all %}
+                            <div class="question-card card">
+                                <div class="card-body">
+                                    <div class="user-info text-center mb-3">
+                                        {% if ans.author.picture %}
+                                            <img src="{{ ans.author.picture.url }}" alt="User Avatar" class="user-picture rounded-circle">
+                                        {% endif %}
+                                    </div>
+                                    <h5 class="card-title">user: {{ ans.author.user.username }}</h5>
+                                    {% if ans.dateAnswered %}
+                                        <p class="text-muted" style="font-size: smaller;">Date posted: {{ ans.dateAnswered|date:"Y-m-d H:i:s" }}</p>
+                                    {% endif %}
+                                    <h5 class="card-title">response to {{ question.title }}</h5>
+                                    <p class="card-text">{{ ans.content|truncatewords:100 }}</p>
+                                    <div class="btn-group" role="group" aria-label="Question actions">
+                                    
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        </div> 
                     </div>
                 {% else %}
                     <p>Unknown Question</p>
                 {% endif %}
+                {% endif %}
+
             </div>
         </div>
     </div>
+    
 {% endblock %}
+
+
