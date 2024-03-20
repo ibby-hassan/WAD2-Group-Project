@@ -47,8 +47,38 @@
                         <button type="submit" class="btn btn-danger" onclick="downVote({{ question.id }})">Downvote</button>
 
                     </div>
-                    <a href="{% url 'insQuire:question' question.id %}" class="btn btn-primary">View Question</a>
-                    <a href="{% url 'insQuire:answerQuestion' question.id %}" class="btn btn-primary">Answer Question</a>
+                    <a href="{% url 'insQuire:question' question.id %}" class="btn btn-primary">View Question</a>                    
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ansQueshtml{{question.id}}">
+                        Answer Question
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="ansQueshtml{{question.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title">Answer {{ question.title }}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                                <!--form to submit answer-->
+                                <form method="post" action="{% url 'insQuire:answerQuestionhtml' question.id %}">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                    <label>Answer question</label>
+                                    <textarea class="form-control" name="content" rows="3"></textarea>
+                                    </div>
+                                    <button type="submit" >Submit</button>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         {% endfor %}
