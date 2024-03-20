@@ -21,7 +21,7 @@
     {% if questions %}
     <div class="row">
         {% for question in questions %}
-            {% if forloop.counter0|divisibleby:4 %}
+            {% if forloop.counter0|divisibleby:3 %}
                 </div><div class="row">
             {% endif %}
             
@@ -38,7 +38,7 @@
                     {% if user.is_authenticated %}
                         <div class="btn-group-vertical">
                             <button type="button" id="upvote-button" class="btn btn-link btn-sm" onclick="upVote({{ question.id }})">
-                                <img src="{% static "pictures/upvote.png"%}" alt="Upvote" style="width = 30px; height:30px">
+                                <img src="{% static 'pictures/upvote.png'%}" alt="Upvote" style="width = 30px; height:30px">
                             </button>
                         
                             <button type="button" id="downvote-button" class="btn btn-link btn-sm" onclick="downVote({{ question.id }})">
@@ -91,8 +91,8 @@
 
                             <button type="button" class="btn btn-link btn-sm" onclick="notLoggedIn()">
                                 <div class="btn-group-vertical">
-                                    <img src="{% static "pictures/upvote.png"%}" alt="Upvote" style="width = 30px; height:30px">
-                                    <img src="{% static "pictures/downvote.png"%}" alt="Downvote" style="width = 30px; height:30px">
+                                    <img src="{% static "pictures/upvote.png" %}" alt="Upvote" style="width = 30px; height:30px">
+                                    <img src="{% static "pictures/downvote.png" %}" alt="Downvote" style="width = 30px; height:30px">
                                 </div>
                             </button>
                         </div>
