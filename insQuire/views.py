@@ -193,3 +193,16 @@ def downvote1(request):
         question.save()
         return JsonResponse({'votes': question.votes})
     
+from insQuire.models import UserProfile  # Import the UserProfile model
+
+def profile(request):
+    user_profile = request.user.userprofile  # Retrieve the UserProfile instance for the current user
+    user_posts = Question.objects.filter(author=user_profile)  # Filter questions by the user's UserProfile instance
+    context = {
+        'user_profile': user_profile,
+        'user_posts': user_posts,
+    }
+    return render(request, 'insQuire/profile.html', context)
+
+
+    

@@ -9,58 +9,63 @@
 {% endblock %}
 
 {% block main_block %}
-    <div class="container">
+    <div class="container mt-5">
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 {% if question %}
                     <div class="card">
                         <div class="card-body">
-                            <h2 class="card-title">{{ question.title }}</h2>
-                            <p class="card-text">Content: {{ question.content }}</p>
-                            <p class="card-text">Author: {{ question.author }}</p>
-                            <p class="card-text">Category: {{ question.category }}</p>
-                            <p class="card-text">Votes: {{ question.votes }}</p>
+                            <h2 class="card-title mb-4">{{ question.title }}</h2>
+                            <p class="card-text"><strong>Content:</strong> {{ question.content }}</p>
+                            <p class="card-text"><strong>Author:</strong> {{ question.author }}</p>
+                            <p class="card-text"><strong>Category:</strong> {{ question.category }}</p>
+                            <p class="card-text"><strong>Votes:</strong> {{ question.votes }}</p>
 
                             {% if user.is_authenticated %}
-
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ansQueshtml{{question.id}}">
-                                Answer Question
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ansQueshtml{{question.id}}">
+                                    Answer Question
                                 </button>
-        
-        
+
                                 <!-- Modal -->
                                 <div class="modal fade" id="ansQueshtml{{question.id}}" tabindex="-1" role="dialog" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                        <h5 class="modal-title">Answer {{ question.title }}</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <!--form to submit answer-->
-                                            <form method="post" action="{% url 'insQuire:answerQuestionhtml' question.id %}">
-                                                {% csrf_token %}
-                                                <div class="form-group">
-                                                <label>Answer question</label>
-                                                <textarea class="form-control" name="content" rows="3"></textarea>
-                                                </div>
-                                                <button type="submit" >Submit</button>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Answer {{ question.title }}</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <!-- Form to submit answer -->
+                                                <form method="post" action="{% url 'insQuire:answerQuestionhtml' question.id %}">
+                                                    {% csrf_token %}
+                                                    <div class="form-group">
+                                                        <label for="answerContent">Answer question</label>
+                                                        <textarea class="form-control" id="answerContent" name="content" rows="3"></textarea>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                             {% endif %}
 
-                            <!-- https://stackoverflow.com/questions/42080864/set-in-
-                            a-queryset-object-in-django#:~:text=blog%20to%20access%20the%20related,django%20puts%20in%20for%20you.&text=The%20reason%20the%20reverse%20is,the%20reverse%20is%20a%20queryset. -->
+                            <!-- Display answers -->
+                            <h4 class="mt-5">Answers</h4>
                             {% for ans in question.answer_set.all %}
-                                <p class="card-text">Answers: {{ ans }}</p>
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <p class="card-text">{{ ans.content }}</p>
+                                        <p class="card-text"><small class="text-muted">Answered by: {{ ans.author }}</small></p>
+                                    </div>
+                                </div>
+                            {% empty %}
+                                <p>No answers yet.</p>
                             {% endfor %}
                         </div>
                     </div>
@@ -70,7 +75,4 @@
             </div>
         </div>
     </div>
-    
 {% endblock %}
-
-

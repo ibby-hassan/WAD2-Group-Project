@@ -1,0 +1,46 @@
+{% extends 'insQuire/base.html' %}
+
+{% block title_block %}
+    User Profile - InsQuire
+{% endblock %}
+
+{% block main_block %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <!-- User Information -->
+                <div class="card custom-card">
+                    <div class="card-body">
+                        <h5 class="card-title custom-title"style="font-size:x-large;">User Information</h5>
+                        <div class="text-center mb-4">
+                            <img src="{{ user.userprofile.picture.url }}" alt="User Avatar" class="img-fluid rounded-circle custom-profile-picture" style="width: 200px;">
+                        </div>
+                        <p class="fw-bold">Username:</p>
+                        <p class="mb-4">{{ user.username }}</p>
+                        <p class="fw-bold">Email:</p>
+                        <p class="mb-4">{{ user.email }}</p>
+                        <!-- Add more user information here as needed -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 mt-4">
+                <!-- User Activities, Posts, etc. -->
+                <div class="card custom-card">
+                    <div class="card-body">
+                        <h5 class="card-title custom-title" style="font-size:x-large;">User's Question History</h5>
+                        {% if user_posts %}
+                            <div class="list-group">
+                                {% for post in user_posts %}
+                                    <a href="{% url 'insQuire:question' questionID=post.id %}" class="list-group-item list-group-item-action">{{ post.title }}</a>
+                                    <!-- Display other details of the post as needed -->
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p>No posts found.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
