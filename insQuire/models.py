@@ -13,9 +13,9 @@ def __str__(self):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    picture = models.ImageField(upload_to='profile_images', blank=True)
+    picture = models.ImageField(upload_to='profile_images', blank=True, default='profile_images/default.jpg')
     website = models.URLField(blank=True)
-
+                                      
     def __str__(self):
         return self.user.username
 
@@ -41,7 +41,7 @@ class Question(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
     dateAsked = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
+    author = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     votes = models.IntegerField(default=0)
 
@@ -52,7 +52,7 @@ class Question(models.Model):
 class Answer(models.Model):
     content = models.TextField()
     dateAnswered = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
+    author = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     votes = models.IntegerField(default=0)
 
