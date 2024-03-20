@@ -41,12 +41,13 @@
             </ul>
         </div>
         <div class="d-flex align-items-center">
-            <span class="mr-2">InsQuire</span>
             {% if user.is_authenticated %}
-            {% if user.userprofile.picture %}
-            <img src="{{ user.userprofile.picture.url }}" alt="User Avatar" class="user-picture">
-            {% endif %}
-            <span class="ml-2 text-white">{{ user.username }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                {% if user.userprofile.picture %}
+                    <a href="{% url 'insQuire:profile' %}">
+                        <img src="{{ user.userprofile.picture.url }}" alt="User Avatar" class="user-picture">
+                    </a>
+                {% endif %}
+                <a href="{% url 'insQuire:profile' %}" class="ml-2 text-white">{{ user.username }}</a>
             {% endif %}
         </div>
         <form class="form-inline my-2 my-lg-0 d-flex" method=POST action="{% url 'insQuire:search' %}">

@@ -24,7 +24,11 @@
     </style>
 
     <h2>Welcome To Home Page</h2>
-
+    <div class="container">
+        <div class="row">
+            <div class="col-10">
+        {% comment %} <div class="row">
+            <div class="col-md-8 offset-md-2"> {% endcomment %}
     {% if recent_questions %}
         {% for question in recent_questions %}
             <div class="question-card card">
@@ -85,6 +89,9 @@
     {% else %}
         <p>No recent questions found.</p>
     {% endif %}
+        </div>
+    </div> 
+</div>
 {% endblock %}
 
 {% block sidebar_block %}
