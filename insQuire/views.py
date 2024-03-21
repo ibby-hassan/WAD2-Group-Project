@@ -1,17 +1,16 @@
 import json
 from django.shortcuts import render
-from insQuire.models import Category, Question
+from insQuire.models import Category, Question, UserProfile, Vote
 from django.db import models
-from .forms import UserForm,UserProfileForm
 from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import logout
+from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.decorators import login_required
-from insQuire.forms import QuestionForm, AnswerForm
+from insQuire.forms import QuestionForm, AnswerForm, UserForm, UserProfileForm
 from django.views.decorators.csrf import csrf_exempt
-
 
 def index(request):
     context = {}
@@ -128,6 +127,7 @@ def user_logout(request):
     logout(request)
     return redirect(reverse('insQuire:index'))
 
+@login_required
 def askQuestion(request):
     if request.method == 'POST':
         form = QuestionForm(request.POST)
@@ -142,6 +142,7 @@ def askQuestion(request):
     categories = Category.objects.all()
     return render(request, 'insQuire/askQuestion.html', {'form': form, 'categories': categories})
 
+@login_required
 def ansQuestion(request, questionID):
     if request.method == 'POST':
         form = AnswerForm(request.POST)
@@ -158,6 +159,7 @@ def ansQuestion(request, questionID):
         form = AnswerForm()
     return render(request, 'insQuire/answerQuestion.html', {'form': form})
 
+@login_required
 def ansQuestionhtml(request, questionID):
     if request.method == 'POST':
         form = AnswerForm(request.POST)
@@ -192,8 +194,6 @@ def downvote1(request):
         question.votes -= 1
         question.save()
         return JsonResponse({'votes': question.votes})
-    
-from insQuire.models import UserProfile  # Import the UserProfile model
 
 def profile(request):
     user_profile = request.user.userprofile  # Retrieve the UserProfile instance for the current user
