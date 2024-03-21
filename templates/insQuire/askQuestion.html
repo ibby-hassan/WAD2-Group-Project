@@ -8,20 +8,25 @@
 {% block main_block %}
     <div class="container mt-5">
         <h1>Ask a Question</h1>
+        <!--form for asking questions-->
         <form method="post">
             {% csrf_token %}
+            <!--input for question titles-->
             <div class="mb-3">
                 <label for="id_title" class="form-label">Question Title:</label>
                 <input type="text" class="form-control" id="id_title" name="title" required>
             </div>
+            <!--input for question content-->
             <div class="mb-3">
                 <label for="id_content" class="form-label">Question Content:</label>
                 <textarea class="form-control" id="id_content" name="content" rows="5" required></textarea>
             </div>
+            <!--input to select category-->
             <div class="mb-3">
                 <label for="id_category" class="form-label">Select a category for your question:</label>
                 <select class="form-select" id="id_category" name="category" required>
                     <option value="" selected disabled>Select a category</option>
+                    <!--listing all categories-->
                     {% for category in categories %}
                         <option value="{{ category.id }}">{{ category.name }}</option>
                     {% endfor %}

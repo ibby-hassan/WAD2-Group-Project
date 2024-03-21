@@ -13,7 +13,9 @@
                     <div class="card-body">
                         <h5 class="card-title custom-title"style="font-size:x-large;">User Information</h5>
                         <div class="text-center mb-4">
+                            {% if ans.author.picture %}
                             <img src="{{ user.userprofile.picture.url }}" alt="User Avatar" class="img-fluid rounded-circle custom-profile-picture" style="width: 200px;">
+                        {% endif %}
                         </div>
                         <p class="fw-bold">Username:</p>
                         <p class="mb-4">{{ user.username }}</p>

@@ -1,32 +1,33 @@
 {% extends 'insQuire/base.html' %}
+{% load static %}
+
+{% block Import_block %}
+<link href="{% static 'css/categories.css' %}" rel="stylesheet">
+{% endblock %}
 
 {% block title_block %}
 insQuire - Categories
 {% endblock %}
 
 {% block main_block %}
-    <style>
-        .category-card {
-            background-color: #007bff; 
-            color: #0e0c0c; 
-            border-radius: 10px; 
-            padding: 30px; 
-            margin-bottom: 60px; 
-        }
-    </style>
+
 
     <h2>Browse Categories</h2>
-        
+    <!--if categories are present, it shows all categories-->
     {% if categories %}
         <div class="row">
             {% for category in categories %}
+            <!--ensures that 4 categories are shown per row-->
                 {% if forloop.counter0|divisibleby:4 %}
                     </div><div class="row">
                 {% endif %}
+                <!--uses bootstrap cards to show categories neatly-->
                 <div class="card category-card" style="width: 18rem; margin-left: 3em ; margin-top: 3em; margin-bottom: 3em">
                     <div class="card-body">
                       <h5 class="card-title">{{ category.name }}</h5>
-                      <p class="card-text">{{ category.description|truncatewords:10 }}</p>
+                      <!--limits the word shown to 20, to reduce clutter-->
+                      <p class="card-text">{{ category.description|truncatewords:20 }}</p>
+                      <!--button to view question-->
                       <a href="{% url 'insQuire:category' category.slugifiedName %}" class="card-link">
                         <button class="btn btn-primary" type="submit">View Questions</button>
                       </a>
@@ -39,16 +40,16 @@ insQuire - Categories
     {% endif %}
 {% endblock %}
 
-{% block sidebar_block %}
-    <div class="sidebar">
+{% comment %} {% block sidebar_block %}
+    <div class="right-sidebar">
         <div class="sidebar-item">
             {% if user.is_authenticated %}
                 <a href="{% url 'insQuire:ask_question' %}">Click here to ask a question</a>
             {% else %}
                 <p>Sign up or log in to ask a question</p>
-                <a href="{% url 'insQuire:signup' %}">Sign Up</a>
+                <a href="{% url 'insQuire:register' %}">Sign Up</a>
                 <a href="{% url 'insQuire:login' %}">Log In</a>
             {% endif %}
         </div>
     </div>
-{% endblock %}
+{% endblock %} {% endcomment %}

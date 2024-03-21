@@ -5,6 +5,7 @@
         <h1>you have searched for: {{ query }}</h1>
     </div>
 
+    <!--if the question is found, it will be shown-->
     {% if questions %}
         {% for question in questions %}
             <h2><a href="{% url 'insQuire:question' question.id %}">{{ question.title }}</a></h2>
@@ -34,7 +35,7 @@
             <p>Answers: {{ question.answer_set.count }}</p>
             <hr>
         {% endfor %}
-
+            <!--if not, the below text will be shown-->
     {% else %}
     <h2>No questions found</h2>
     {% endif %}

@@ -1,5 +1,12 @@
 {% extends 'insQuire/base.html' %}
 
+{% load static %}
+
+
+{% block Import_block %}
+<link href="{% static 'css/question.css' %}" rel="stylesheet">
+{% endblock %}
+
 {% block title_block %}
     {% if question %}
         {{ question.title }}
@@ -9,28 +16,22 @@
 {% endblock %}
 
 {% block main_block %}
-<style>
-    .question-card {
-        background-color: #b9b3b3; 
-        border-radius: 20px; 
-        padding: 15px; 
-        margin-bottom: 30px; 
-    }
-</style>
+
     <div class="container">
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 {% if question %}
                     <div class="card">
                         <div class="card-body">
+                            <!--show question information-->
                             <h2 class="card-title mb-4">{{ question.title }}</h2>
                             <p class="card-text"><strong>Content:</strong> {{ question.content }}</p>
                             <p class="card-text"><strong>Author:</strong> {{ question.author }}</p>
                             <p class="card-text"><strong>Category:</strong> {{ question.category }}</p>
                             <p class="card-text"><strong>Votes:</strong> {{ question.votes }}</p>
 
+                                <!--if user is loggen in, they can answer questions-->
                             {% if user.is_authenticated %}
-
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ansQueshtml{{question.id}}">
                                 Answer Question
                                 </button>
@@ -64,7 +65,7 @@
                                 </div>
                             </div>
                             {% endif %}
-
+                            <!--shows all answers for the question with styling-->
                             <h4>Answers: </h4>
                             {% if question.answer_set.all %}
                             <!-- https://stackoverflow.com/questions/42080864/set-in-
@@ -84,7 +85,6 @@
                                     <h5 class="card-title">response to {{ question.title }}</h5>
                                     <p class="card-text">{{ ans.content|truncatewords:100 }}</p>
                                     <div class="btn-group" role="group" aria-label="Question actions">
-
                                     </div>
                                 </div>
                             </div>

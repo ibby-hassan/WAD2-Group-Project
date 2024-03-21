@@ -8,6 +8,7 @@
 {% block main_block %}
     <div class="login-container">
         <h1>Login to insQuire</h1>
+        <!--form for user login-->
         <form id="login_form" method="post" action="{% url 'insQuire:login' %}">
             {% csrf_token %}
             <div class="form-group">

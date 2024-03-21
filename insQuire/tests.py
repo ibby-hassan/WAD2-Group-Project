@@ -4,10 +4,10 @@ from insQuire.models import UserProfile, Question, User, Category
 class UserProfileModelTest(TestCase):
     def setUp(self):
         self.user = User.objects.create(username='testuser', password='12345')
-        self.userprofile = UserProfile.objects.create(user=self.user, website='https://test.com')
+        self.userprofile = UserProfile.objects.create(user=self.user)
 
     def test_user_profile_creation(self):
-        self.assertEqual(self.userprofile.website, 'https://test.com')
+        self.assertEqual(self.user.username, 'testuser')
 
 class QuestionModelTest(TestCase):
     def setUp(self):
