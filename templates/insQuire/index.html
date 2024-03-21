@@ -39,9 +39,12 @@
 
                     </div>
                     <a href="{% url 'insQuire:question' question.id %}" class="btn btn-primary">View Question</a>                    
+
+                    {% if user.is_authenticated %}
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ansQueshtml{{question.id}}">
                         Answer Question
                     </button>
+                    {% endif %}
 
                     <!-- Modal -->
                     <div class="modal fade" id="ansQueshtml{{question.id}}" tabindex="-1" role="dialog" aria-hidden="true">
