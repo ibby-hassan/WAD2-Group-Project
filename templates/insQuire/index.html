@@ -104,16 +104,4 @@
 </div>
 {% endblock %}
 
-{% comment %} {% block sidebar_block %}
-    <div class="right-sidebar">
-        <div class="sidebar-item">
-            {% if user.is_authenticated %}
-                <a href="{% url 'insQuire:ask_question' %}">Click here to ask a question</a>
-            {% else %}
-                <p>Sign up or log in to ask a question</p>
-                <a href="{% url 'insQuire:register' %}">Sign Up</a>
-                <a href="{% url 'insQuire:login' %}">Log In</a>
-            {% endif %}
-        </div>
-    </div> 
-{% endblock %} {% endcomment %}
+
