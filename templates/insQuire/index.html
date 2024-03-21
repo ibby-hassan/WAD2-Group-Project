@@ -31,6 +31,9 @@
                     {% endif %}
                     <h5 class="card-title">{{ question.title }}</h5>
                     <p class="card-text">{{ question.content|truncatewords:10 }}</p>
+
+                    {% if user.is_authenticated %}
+
                     <div class="btn-group" role="group" aria-label="Question actions">
                         
                         <button type="button" class="btn btn-success" onclick="upVote({{ question.id }})">Upvote</button>
@@ -38,6 +41,21 @@
                         <button type="submit" class="btn btn-danger" onclick="downVote({{ question.id }})">Downvote</button>
 
                     </div>
+                    {% else %}
+                        <div>
+                            <div class="alert alert-primary" role="alert">
+                                Please <a href="{% url 'insQuire:login'%}" class="alert-link">Login</a> to vote or answer questions.
+                            </div>
+                            <div class="btn-group" role="group" aria-label="Question actions">
+                        
+                                <button type="button" class="btn btn-success" onclick="notLoggedIn()">Upvote</button>
+                                <span class="vote-count" id="votes{{question.id}}">{{ question.votes }}</span>
+                                <button type="submit" class="btn btn-danger" onclick="notLoggedIn()">Downvote</button>
+        
+                            </div>
+                        </div>
+                    {% endif %}
+
                     <a href="{% url 'insQuire:question' question.id %}" class="btn btn-primary">View Question</a>                    
 
                     {% if user.is_authenticated %}
