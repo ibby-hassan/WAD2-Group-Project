@@ -14,104 +14,106 @@
     <div class="container">
         <div class="row">
             <div class="col-10">
-        {% comment %} <div class="row">
-            <div class="col-md-8 offset-md-2"> {% endcomment %}
-    {% if recent_questions %}
-        {% for question in recent_questions %}
-            <div class="question-card card">
-                <div class="card-body">
-                    <div class="user-info text-center mb-3">
-                        {% if question.author.picture %}
-                            <img src="{{ question.author.picture.url }}" alt="User Avatar" class="user-picture rounded-circle">
-                        {% endif %}
-                    </div>
-                    <h5 class="card-title">{{ question.author.user.username }}</h5>
-                    {% if question.dateAsked %}
-                        <p class="text-muted" style="font-size: smaller;">Date posted: {{ question.dateAsked|date:"Y-m-d H:i:s" }}</p>
-                    {% endif %}
-                    <h5 class="card-title">{{ question.title }}</h5>
-                    <p class="card-text">{{ question.content|truncatewords:10 }}</p>
-
-                    {% if user.is_authenticated %}
-
-                        <div class="btn-group" role="group" aria-label="Question actions">
-                            
-                            <button type="button" class="btn btn-success" onclick="upVote({{ question.id }})">Upvote</button>
-                            <span class="vote-count" id="votes{{question.id}}">{{ question.votes }}</span>
-                            <button type="submit" class="btn btn-danger" onclick="downVote({{ question.id }})">Downvote</button>
-
-                        </div>
-                    {% else %}
-                        <div>
-                            <div class="alert alert-primary" role="alert">
-                                Please <a href="{% url 'insQuire:login'%}" class="alert-link">Login</a> to vote or answer questions.
+                <!--if there are recent questions, show them in the home page-->
+            {% if recent_questions %}
+                {% for question in recent_questions %}
+                    <div class="question-card card">
+                        <div class="card-body">
+                            <div class="user-info text-center mb-3">
+                                <!--only show profile pictire if it exist to prevent errors-->
+                                {% if question.author.picture %}
+                                    <img src="{{ question.author.picture.url }}" alt="User Avatar" class="user-picture rounded-circle">
+                                {% endif %}
+                                <!--show user information that asked question-->
                             </div>
-                            <div class="btn-group" role="group" aria-label="Question actions">
-                        
-                                <button type="button" class="btn btn-success" onclick="notLoggedIn()">Upvote</button>
-                                <span class="vote-count" id="votes{{question.id}}">{{ question.votes }}</span>
-                                <button type="submit" class="btn btn-danger" onclick="notLoggedIn()">Downvote</button>
-        
-                            </div>
-                        </div>
-                    {% endif %}
+                            <h5 class="card-title">{{ question.author.user.username }}</h5>
+                            {% if question.dateAsked %}
+                                <p class="text-muted" style="font-size: smaller;">Date posted: {{ question.dateAsked|date:"Y-m-d H:i:s" }}</p>
+                            {% endif %}
+                            <h5 class="card-title">{{ question.title }}</h5>
+                            <p class="card-text">{{ question.content|truncatewords:10 }}</p>
 
-                    <a href="{% url 'insQuire:question' question.id %}" class="btn btn-primary">View Question</a>                    
+                            <!--if user is logged in, allow them to vote-->
+                            {% if user.is_authenticated %}
+                                <div class="btn-group" role="group" aria-label="Question actions">
+                                    
+                                    <button type="button" class="btn btn-success" onclick="upVote({{ question.id }})">Upvote</button>
+                                    <span class="vote-count" id="votes{{question.id}}">{{ question.votes }}</span>
+                                    <button type="submit" class="btn btn-danger" onclick="downVote({{ question.id }})">Downvote</button>
 
-                    {% if user.is_authenticated %}
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ansQueshtml{{question.id}}">
-                        Answer Question
-                    </button>
-                    {% endif %}
-
-                    <!-- Modal -->
-                    <div class="modal fade" id="ansQueshtml{{question.id}}" tabindex="-1" role="dialog" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                            <h5 class="modal-title">Answer {{ question.title }}</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            </div>
-                            <div class="modal-body">
-                                <!--form to submit answer-->
-                                <form method="post" action="{% url 'insQuire:answerQuestionhtml' question.id %}">
-                                    {% csrf_token %}
-                                    <div class="form-group">
-                                    <label>Answer question</label>
-                                    <textarea class="form-control" name="content" rows="3"></textarea>
+                                </div>
+                                <!--if not, they will be prompted to login-->
+                            {% else %}
+                                <div>
+                                    <div class="alert alert-primary" role="alert">
+                                        Please <a href="{% url 'insQuire:login'%}" class="alert-link">Login</a> to vote or answer questions.
                                     </div>
-                                    <button type="submit" >Submit</button>
-                                </form>
+                                    <div class="btn-group" role="group" aria-label="Question actions">
+                                
+                                        <button type="button" class="btn btn-success" onclick="notLoggedIn()">Upvote</button>
+                                        <span class="vote-count" id="votes{{question.id}}">{{ question.votes }}</span>
+                                        <button type="submit" class="btn btn-danger" onclick="notLoggedIn()">Downvote</button>
+                
+                                    </div>
+                                </div>
+                            {% endif %}
+                                <!--user will be able to login no matter what-->
+                            <a href="{% url 'insQuire:question' question.id %}" class="btn btn-primary">View Question</a>                    
+                                <!--user can answer questions if logged in-->
+                            {% if user.is_authenticated %}
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ansQueshtml{{question.id}}">
+                                Answer Question
+                            </button>
+                            {% endif %}
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="ansQueshtml{{question.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h5 class="modal-title">Answer {{ question.title }}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!--form to submit answer-->
+                                        <form method="post" action="{% url 'insQuire:answerQuestionhtml' question.id %}">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                            <label>Answer question</label>
+                                            <textarea class="form-control" name="content" rows="3"></textarea>
+                                            </div>
+                                            <button type="submit" >Submit</button>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                                </div>
                             </div>
-                            <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        {% endfor %}
-    {% else %}
-        <p>No recent questions found.</p>
-    {% endif %}
+                {% endfor %}
+            {% else %}
+                <p>No recent questions found.</p>
+            {% endif %}
         </div>
     </div> 
 </div>
 {% endblock %}
 
-{% block sidebar_block %}
-    <div class="sidebar">
+{% comment %} {% block sidebar_block %}
+    <div class="right-sidebar">
         <div class="sidebar-item">
             {% if user.is_authenticated %}
                 <a href="{% url 'insQuire:ask_question' %}">Click here to ask a question</a>
             {% else %}
                 <p>Sign up or log in to ask a question</p>
-                <a href="{% url 'insQuire:signup' %}">Sign Up</a>
+                <a href="{% url 'insQuire:register' %}">Sign Up</a>
                 <a href="{% url 'insQuire:login' %}">Log In</a>
             {% endif %}
         </div>
-    </div>
-{% endblock %}
+    </div> 
+{% endblock %} {% endcomment %}
