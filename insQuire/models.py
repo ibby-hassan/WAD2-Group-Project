@@ -16,7 +16,6 @@ def __str__(self):
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     picture = models.ImageField(upload_to='profile_images', blank=True, default='profile_images/default.jpg')
-    website = models.URLField(blank=True)
                                       
     def __str__(self):
         return self.user.username
