@@ -1,5 +1,12 @@
 {% extends 'insQuire/base.html' %}
 
+{% load static %}
+
+
+{% block Import_block %}
+<link href="{% static 'css/question.css' %}" rel="stylesheet">
+{% endblock %}
+
 {% block title_block %}
     {% if question %}
         {{ question.title }}
@@ -9,14 +16,7 @@
 {% endblock %}
 
 {% block main_block %}
-<style>
-    .question-card {
-        background-color: #b9b3b3; 
-        border-radius: 20px; 
-        padding: 15px; 
-        margin-bottom: 30px; 
-    }
-</style>
+
     <div class="container">
         <div class="row">
             <div class="col-md-8 offset-md-2">

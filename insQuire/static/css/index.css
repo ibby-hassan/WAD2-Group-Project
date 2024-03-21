@@ -1,0 +1,15 @@
+.question-card {
+    background-color: #b9b3b3; 
+    border-radius: 20px; 
+    padding: 15px; 
+    margin-bottom: 30px; 
+}
+.vote-count {
+    display: inline-block;
+    padding: 5px 10px; 
+    background-color: #ffd700; 
+    border-radius: 5px; 
+    color: #000; 
+    font-weight: bold; 
+    margin-right: 10px; 
+}
