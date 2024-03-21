@@ -27,44 +27,4 @@ class Migration(migrations.Migration):
                 'verbose_name_plural': 'categories',
             },
         ),
-        migrations.CreateModel(
-            name='Tag',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50, unique=True)),
-                ('occurrences', models.IntegerField(default=0)),
-            ],
-        ),
-        migrations.CreateModel(
-            name='UserProfile',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('picture', models.ImageField(blank=True, default='profile_images/default.jpg', upload_to='profile_images')),
-                ('website', models.URLField(blank=True)),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-            ],
-        ),
-        migrations.CreateModel(
-            name='Question',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=100)),
-                ('content', models.TextField()),
-                ('dateAsked', models.DateTimeField(auto_now_add=True)),
-                ('votes', models.IntegerField(default=0)),
-                ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='insQuire.userprofile')),
-                ('category', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='insQuire.category')),
-            ],
-        ),
-        migrations.CreateModel(
-            name='Answer',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('content', models.TextField()),
-                ('dateAnswered', models.DateTimeField(auto_now_add=True)),
-                ('votes', models.IntegerField(default=0)),
-                ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='insQuire.userprofile')),
-                ('question', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='insQuire.question')),
-            ],
-        ),
     ]
