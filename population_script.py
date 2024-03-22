@@ -78,7 +78,7 @@ def addUser(username, password, email):
 def addUserProfile(user):
     u = UserProfile.objects.get_or_create(user=user)[0]
     u.save()
-    return u
+    return uP
 
 def addCategory(name, description):
     c = Category.objects.get_or_create(name=name, description=description)[0]

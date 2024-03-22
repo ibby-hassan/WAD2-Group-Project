@@ -16,6 +16,7 @@ def __str__(self):
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     picture = models.ImageField(upload_to='profile_images', blank=True, default='profile_images/default.jpg')
+    website = models.URLField(blank=True)
                                       
     def __str__(self):
         return self.user.username
@@ -59,17 +60,6 @@ class Answer(models.Model):
 
     def __str__(self):
         return self.content
-    
-class Vote(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey('content_type', 'object_id')
-    vote = models.BooleanField()  # True for upvote, False for downvote
-    
-    class Meta:
-        unique_together = ('user', 'content_type', 'object_id')
-
     
 
 

@@ -1,13 +1,11 @@
 import json
 from django.shortcuts import render
-from insQuire.models import Category, Question, UserProfile, Vote
+from insQuire.models import Category, Question, UserProfile
 from django.db import models
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.http import HttpResponse, JsonResponse
-from django.contrib.auth import logout
-from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.decorators import login_required
 from insQuire.forms import QuestionForm, AnswerForm, UserForm, UserProfileForm
 from django.views.decorators.csrf import csrf_exempt
@@ -77,6 +75,8 @@ def search(request):
     return render(request, 'insQuire/search.html', context)
 
 def register(request):
+    context = {}
+    next_url = '/'
     registered = False
     if request.method == 'POST':
         user_form = UserForm(request.POST)
@@ -85,18 +85,28 @@ def register(request):
             user = user_form.save()
             user.set_password(user.password)
             user.save()
+
+            # Upon making the new account, logging the user in
+            logged_in_user = authenticate(username=user.username, password=user.password)
+            login(request, logged_in_user)
+
             profile = profile_form.save(commit=False)
             profile.user = user
             if 'picture' in request.FILES:
                 profile.picture = request.FILES['picture']
-                profile.save()
-                registered = True
-            else:
-                print(user_form.errors, profile_form.errors)
+            profile.save()
+            registered = True
+
+            # Once registered and sign in, return back to the page they were on (given by the 'next' passed in from the register template, else redirect to '/' (index) page
+            next_url = request.POST.get('next', '/')
+            return redirect(next_url)
     else:
         user_form = UserForm()
         profile_form = UserProfileForm()
-    return render(request, 'insQuire/register.html', context = {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
+        next_url = request.GET.get('next', '/')
+        
+    context = {'user_form': user_form, 'profile_form': profile_form, 'registered': registered, 'next': next_url}
+    return render(request, 'insQuire/register.html', context)
 
 
 def user_login(request):
@@ -109,10 +119,10 @@ def user_login(request):
                 login(request, user)
                 return redirect(reverse('insQuire:index'))
             else:
-                return HttpResponse("Your insQuire account is disabled.")
+                return render(request, 'insQuire/login.html', {'error_message': 'Your account has been disabled.'})
         else:
             print(f"Invalid login details: {username}, {password}")
-            return HttpResponse("Invalid login details supplied.")
+            return render(request, 'insQuire/login.html', {'error_message': 'Invalid login details.'})
     else:
         return render(request, 'insQuire/login.html')
 

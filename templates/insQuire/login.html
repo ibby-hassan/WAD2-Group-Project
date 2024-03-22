@@ -6,9 +6,17 @@
 {% endblock %}
 
 {% block main_block %}
+
     <div class="login-container">
         <h1>Login to insQuire</h1>
         <!--form for user login-->
+
+        {% if error_message %}
+        <div class="alert alert-danger" role="alert">
+            {{ error_message }}
+        </div>
+        {% endif %}
+
         <form id="login_form" method="post" action="{% url 'insQuire:login' %}">
             {% csrf_token %}
             <div class="form-group">
