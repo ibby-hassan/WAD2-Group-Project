@@ -82,13 +82,16 @@ def register(request):
         user_form = UserForm(request.POST)
         profile_form = UserProfileForm(request.POST)
         if user_form.is_valid() and profile_form.is_valid():
-            user = user_form.save()
-            user.set_password(user.password)
+            
+            # Saving the users details. Password has to be handled different as set_password hashes it, meaning it can't be used to authenticate after being saved.
+            user = user_form.save(commit=False)
+            plain_password = user_form.cleaned_data['password'] 
+            user.set_password(plain_password)
             user.save()
 
             # Upon making the new account, logging the user in
-            logged_in_user = authenticate(username=user.username, password=user.password)
-            login(request, logged_in_user)
+            user = authenticate(username=user.username, password=plain_password)
+            login(request, user)
 
             profile = profile_form.save(commit=False)
             profile.user = user
