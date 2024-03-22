@@ -8,8 +8,16 @@ search through questions with the search functionality at the nav bar.
 
 when users are logged in, they are able to answers questions and also vote on the questions as well.
 
+Instructions
+1. please use python 3.9
+2. pip install -r requirements.txt
+3. you will need to do $python manage.py makemigrations
+4. then $python manage.py migrate
+5. then run $python population_script.py
+6. to run the server $python manage.py runserver
+7. and when you run the server, everything will work as expected
 
-the below refence is used when implementing ajax
+the below reference is used when implementing ajax
 https://testdriven.io/blog/django-ajax-xhr/ 
 https://docs.djangoproject.com/en/3.0/ref/csrf/#ajax
 
