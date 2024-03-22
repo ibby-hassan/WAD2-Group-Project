@@ -11,15 +11,15 @@ when users are logged in, they are able to answers questions and also vote on th
 Instructions
 1. please use python 3.9
 2. pip install -r requirements.txt
-3. you will need to do $python manage.py makemigrations
-4. then $python manage.py migrate
-5. then run $python population_script.py
-6. to run the server $python manage.py runserver
+3. you will need to do "$ python manage.py makemigrations"
+4. then "$ python manage.py migrate"
+5. then run "$ python population_script.py"
+6. to run the server "$ python manage.py runserver"
 7. and when you run the server, everything will work as expected
 
 the below reference is used when implementing ajax
-https://testdriven.io/blog/django-ajax-xhr/ 
-https://docs.djangoproject.com/en/3.0/ref/csrf/#ajax
+1. https://testdriven.io/blog/django-ajax-xhr/
+2. https://docs.djangoproject.com/en/3.0/ref/csrf/#ajax
 
 the below reference is used to solve a small problem that we met in question.html
-https://stackoverflow.com/questions/42080864/set-in-a-queryset-object-indjango#:~:text=blog%20to%20access%20the%20related,django%20puts%20in%20for%20you.&text=The%20reason%20the%20reverse%20is,the%20reverse%20is%20a%20queryset. 
+1. https://stackoverflow.com/questions/42080864/set-in-a-queryset-object-indjango#:~:text=blog%20to%20access%20the%20related,django%20puts%20in%20for%20you.&text=The%20reason%20the%20reverse%20is,the%20reverse%20is%20a%20queryset. 
