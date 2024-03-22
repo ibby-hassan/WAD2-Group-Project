@@ -17,6 +17,12 @@ Instructions
 6. to run the server "$ python manage.py runserver"
 7. and when you run the server, everything will work as expected
 
+Contributors
+1. Zhen Yao Heng (2840506H)
+2. Qiuran Bian (2795305B)
+3. Ibrahim Hassan (2667185H)
+
+
 the below reference is used when implementing ajax
 1. https://testdriven.io/blog/django-ajax-xhr/
 2. https://docs.djangoproject.com/en/3.0/ref/csrf/#ajax
